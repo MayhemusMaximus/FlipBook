@@ -9,5 +9,6 @@ namespace FlipBook
     public static class Textures
     {
         public static Texture2D TextBox;
+        public static Texture2D texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
     }
 }

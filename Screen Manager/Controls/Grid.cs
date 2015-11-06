@@ -10,6 +10,7 @@ namespace FlipBook
 {
     public class Grid : BaseScreen
     {
+        public Boolean CanPan = true;
         public Boolean ShowGridLines = true;
 
         private Vector2 gridSize;
@@ -24,14 +25,14 @@ namespace FlipBook
         }
         public GridCell[,] Cells;
 
-        private Texture2D texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
+        //private Texture2D texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
 
         private void BuildTexture()
         {
-            Color[] color = new Color[texture.Width * texture.Height];
-            texture.GetData(color);
+            Color[] color = new Color[Textures.texture.Width * Textures.texture.Height];
+            Textures.texture.GetData(color);
             color[0] = Color.White;
-            texture.SetData(color);
+            Textures.texture.SetData(color);
         }
 
 
@@ -79,7 +80,7 @@ namespace FlipBook
 
             CellBorder.SetData(colors);
 
-            Globals.GraphicsDevice.Textures[0] = texture;
+            Globals.GraphicsDevice.Textures[0] = Textures.texture;
         }
 
         private void RebuildGrid()
@@ -161,7 +162,7 @@ namespace FlipBook
             {
                 for (int y = 0; y < GridSize.Y; y++)
                 {
-                    Globals.SpriteBatch.Draw(texture, Cells[x, y].Bounds, Cells[x, y].Color);
+                    Globals.SpriteBatch.Draw(Textures.texture, Cells[x, y].Bounds, Cells[x, y].Color);
                     if(ShowGridLines)
                         Globals.SpriteBatch.Draw(CellBorder, Cells[x, y].Bounds, Color.White);
                 }

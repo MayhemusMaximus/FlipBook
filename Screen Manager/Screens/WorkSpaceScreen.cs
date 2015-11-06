@@ -13,68 +13,7 @@ namespace FlipBook
 
         Textbox tb = new Textbox("1", new Vector2(100, 100), new Vector2(75, 25));
 
-        int scale = 10;
-
-        //private Vector2 gridSize = new Vector2(16, 16);
-        //private Vector2 GridSize
-        //{
-        //    get { return this.gridSize; }
-        //    set
-        //    {
-        //        this.gridSize = value;
-        //        RebuildGrid();
-        //    }
-        //}
-
-        Grid grid = new Grid(new Vector2(16,16), new Vector2(200,200));
-
-        //Rectangle[,] grid;
-
-        //private void RebuildGrid()
-        //{
-        //    grid = new Rectangle[(int)GridSize.X, (int)GridSize.Y];
-
-        //    for(int x = 0; x < GridSize.X; x++)
-        //    {
-        //        for(int y = 0; y < GridSize.Y; y++)
-        //        {
-        //            grid[x, y] = new Rectangle((int)Position.X + (x * scale), (int)Position.Y + (y * scale), scale, scale);
-        //        }
-        //    }
-        //}
-
-        //Texture2D box = new Texture2D(Globals.GraphicsDevice, 10, 10);
-        //public void makeBox()
-        //{
-        //    Color[] colors = new Color[box.Width * box.Height];
-        //    box.GetData(colors);
-
-        //    // left side
-        //    for (int y = 0; y < box.Height; y++)
-        //    {
-        //        colors[y] = Color.Red;
-        //    }
-
-        //    // right side
-        //    for (int y = colors.Count() - 1; y > colors.Count() - box.Height; y--)
-        //    {
-        //        colors[y] = Color.Red;
-        //    }
-
-        //    // Top
-        //    for (int y = 0; y < colors.Count(); y = y + box.Height)
-        //    {
-        //        colors[y] = Color.Red;
-        //    }
-
-        //    // Bottom
-        //    for (int y = box.Height - 1; y < colors.Count(); y = y + box.Height )
-        //    {
-        //        colors[y] = Color.Red;
-        //    }
-
-        //        box.SetData(colors);
-        //}
+        Grid grid = new Grid(new Vector2(16,16), new Vector2(0,0));
 
         Texture2D line = new Texture2D(Globals.GraphicsDevice, 1, 200);
         public void makeLine()
@@ -98,47 +37,66 @@ namespace FlipBook
             Size = size;
 
             makeLine();
-            //makeBox();
-
-            //GridSize = new Vector2(16, 16);
-            
-            //RebuildGrid();
         }
 
         public override void Load()
         {
-            //base.Load();
+            
         }
 
         public override void Unload()
         {
-            //base.Unload();
+
         }
 
         public override void Update()
         {
-            //base.Update();
             grid.Update();
         }
 
+        Swatch swatch = new Swatch("Swatch", new Vector2(200,0), new Vector2(15,200));
+
         public override void Draw()
         {
-            //base.Draw();
-
-            //Globals.SpriteBatch.Draw(Textures.TextBox, tb.Bounds, Color.White);
-            //Globals.SpriteBatch.Draw(line, new Rectangle(10, 10, 10, 200), Color.White);
-
-            //Globals.SpriteBatch.Draw(box, new Rectangle(200, 100, 200, 200), Color.Red);
-
-            //for(int x = 0; x < GridSize.X; x++)
-            //{
-            //    for(int y = 0; y < GridSize.Y; y++)
-            //    {
-            //        Globals.SpriteBatch.Draw(box, grid[x, y], Color.White);
-            //    }
-            //}
-
+            swatch.Draw();
             grid.Draw();
         }
+
+        //private void DrawSwatch()
+        //{
+        //    Vector2 pos = new Vector2(200, 0);
+        //    int swatchWidth = 15;
+        //    int increment = 8;
+        //    for(int g = 0; g < 256; g = g + increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(255, g, 0));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //    for (int r = 255; r > -1; r = r - increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(r, 255, 0));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //    for (int b = 0; b < 256; b = b + increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(0, 255, b));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //    for (int g = 255; g > -1; g = g - increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(0, g, 255));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //    for (int r = 0; r < 256; r = r + increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(r, 0, 255));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //    for (int b = 255; b > -1; b = b - increment)
+        //    {
+        //        Globals.SpriteBatch.Draw(Textures.texture, new Rectangle((int)pos.X, (int)pos.Y, swatchWidth, 1), new Color(255, 0, b));
+        //        pos.Y = pos.Y + 1;
+        //    }
+        //}
     }
 }

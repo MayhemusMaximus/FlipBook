@@ -76,6 +76,7 @@
     <Compile Include="Screen Manager\Controls\Control.cs" />
     <Compile Include="Screen Manager\Controls\Grid.cs" />
     <Compile Include="Screen Manager\Controls\GridCell.cs" />
+    <Compile Include="Screen Manager\Controls\Swatch.cs" />
     <Compile Include="Screen Manager\Screens\BaseScreen.cs" />
     <Compile Include="Screen Manager\Screens\Frame.cs" />
     <Compile Include="Screen Manager\Screens\FramePalette.cs" />
