@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Frames\1.png</Source>
+      <Name>Frames\1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Frames\1.xnb</Output>
+      <Time>2015-11-03T13:39:44.2700981-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Frames\2.png</Source>
+      <Name>Frames\2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Frames\2.xnb</Output>
+      <Time>2015-11-03T09:29:50.0248235-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Frames\Pixel.png</Source>
+      <Name>Frames\Pixel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Frames\Pixel.xnb</Output>
+      <Time>2015-11-03T15:59:41.0506922-06:00</Time>
+    </Item>
+    <Item>
+      <Source>TextBox.png</Source>
+      <Name>TextBox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\TextBox.xnb</Output>
+      <Time>2015-11-03T16:34:13.1428807-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Arial_8.spritefont</Source>
+      <Name>Arial_8</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Arial_8.xnb</Output>
+      <Time>2015-11-03T14:31:16.7673169-06:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{910E346D-2186-4165-AEB8-6C80DDA90443}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBookContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2015-10-05T14:52:19.877219-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

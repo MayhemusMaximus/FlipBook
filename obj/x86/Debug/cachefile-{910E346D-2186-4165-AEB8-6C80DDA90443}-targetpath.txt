@@ -1,0 +1,5 @@
+Content\Frames\1.xnb
+Content\Frames\2.xnb
+Content\Frames\Pixel.xnb
+Content\TextBox.xnb
+Content\Arial_8.xnb
