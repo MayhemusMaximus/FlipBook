@@ -166,11 +166,11 @@ namespace FlipBook
 
             //if(currentMouseState.ScrollWheelValue)
 
+            ScreenManager.Update();
 
             Globals.PreviousKeyboardState = Globals.CurrentKeyboardState;
             Globals.PreviousMouseState = Globals.CurrentMouseState;
 
-            ScreenManager.Update();
 
 
             base.Update(gameTime);

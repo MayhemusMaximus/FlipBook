@@ -34,8 +34,6 @@ namespace FlipBook
             texture.SetData(color);
         }
 
-        //public int scale;
-
 
         public Texture2D CellBorder = new Texture2D(Globals.GraphicsDevice, 10, 10);
 
@@ -43,7 +41,6 @@ namespace FlipBook
         {
             BuildTexture();
             Position = position;
-            //this.scale = scale;
             GridSize = new Vector2(16, 16);
             makeBox();
         }
@@ -87,13 +84,11 @@ namespace FlipBook
 
         private void RebuildGrid()
         {
-            //Cells = new GridCell[(int)GridSize.X, (int)GridSize.Y];
 
             for (int x = 0; x < GridSize.X; x++)
             {
                 for (int y = 0; y < GridSize.Y; y++)
                 {
-                    //Cells[x, y] = new GridCell(new Vector2((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale)), Color.White);
                     Cells[x, y].Bounds = new Rectangle((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale), Globals.Scale, Globals.Scale);
                 }
             }
@@ -125,6 +120,26 @@ namespace FlipBook
 
             if (Globals.CurrentMouseState.LeftButton == ButtonState.Pressed)
                 ColorCell(new Point(Globals.CurrentMouseState.X,Globals.CurrentMouseState.Y));
+
+            HandlePan();
+        }
+
+        private void HandlePan()
+        {
+            if (Globals.CurrentMouseState.MiddleButton == ButtonState.Pressed && Globals.PreviousMouseState.MiddleButton == ButtonState.Pressed)
+            {
+                Vector2 currentPosition = new Vector2(Globals.CurrentMouseState.X, Globals.CurrentMouseState.Y);
+                Vector2 previousPosition = new Vector2(Globals.PreviousMouseState.X, Globals.PreviousMouseState.Y);
+                Vector2 delta = currentPosition - previousPosition;
+                Pan(delta);
+            }
+        }
+
+        private void Pan(Vector2 delta)
+        {
+            Console.WriteLine(delta);
+            Position = Position + delta;
+            RebuildGrid();
         }
 
         private void ColorCell(Point point)
