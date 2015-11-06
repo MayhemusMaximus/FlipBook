@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace FlipBook
             set 
             {
                 gridSize = value;
-                RebuildGrid();
+                BuildGrid();
             }
         }
         public GridCell[,] Cells;
@@ -86,6 +87,21 @@ namespace FlipBook
 
         private void RebuildGrid()
         {
+            //Cells = new GridCell[(int)GridSize.X, (int)GridSize.Y];
+
+            for (int x = 0; x < GridSize.X; x++)
+            {
+                for (int y = 0; y < GridSize.Y; y++)
+                {
+                    //Cells[x, y] = new GridCell(new Vector2((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale)), Color.White);
+                    Cells[x, y].Bounds = new Rectangle((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale), Globals.Scale, Globals.Scale);
+                }
+            }
+        }
+
+
+        private void BuildGrid()
+        {
             Cells = new GridCell[(int)GridSize.X, (int)GridSize.Y];
 
             for (int x = 0; x < GridSize.X; x++)
@@ -105,6 +121,21 @@ namespace FlipBook
                 CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
                 makeBox();
                 RebuildGrid();
+            }
+
+            if (Globals.CurrentMouseState.LeftButton == ButtonState.Pressed)
+                ColorCell(new Point(Globals.CurrentMouseState.X,Globals.CurrentMouseState.Y));
+        }
+
+        private void ColorCell(Point point)
+        {
+            foreach(GridCell cell in Cells)
+            {
+                if(cell.Bounds.Contains(point))
+                {
+                    cell.Color = Color.Black;
+                    break;   
+                }
             }
         }
 
