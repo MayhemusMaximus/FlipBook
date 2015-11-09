@@ -12,5 +12,6 @@ namespace FlipBook
         public static Texture2D texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
         public static Texture2D Pencil;
         public static Texture2D Eraser;
+        public static Texture2D Line;
     }
 }

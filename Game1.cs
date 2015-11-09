@@ -74,6 +74,7 @@ namespace FlipBook
             Textures.TextBox = Content.Load<Texture2D>("TextBox");
             Textures.Pencil = Content.Load<Texture2D>("Pencil");
             Textures.Eraser = Content.Load<Texture2D>("Eraser");
+            Textures.Line = Content.Load<Texture2D>("Line");
 
             // TODO: use this.Content to load your game content here
             //Frame1 = Content.Load<Texture2D>("Frames/1");

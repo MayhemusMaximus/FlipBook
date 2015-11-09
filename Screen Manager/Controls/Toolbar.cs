@@ -10,15 +10,17 @@ namespace FlipBook
     public enum DrawMode
     {
         Pencil,
-        Eraser
+        Eraser,
+        Line
     }
 
     public class Toolbar : BaseScreen
     {
         Texture2D texture;
 
-        Button btn;
+        Button btnPencil;
         Button btnEraser;
+        Button btnLine;
 
         public DrawMode DrawMode { get; private set; }
 
@@ -28,10 +30,14 @@ namespace FlipBook
             this.Position = new Vector2(0, 0);
             this.Size = new Vector2(Globals.Graphics.PreferredBackBufferWidth, 30);
 
-            btn = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
-            btn.Image = Textures.Pencil;
-            btnEraser = new Button(new Vector2(btn.Bounds.X + btn.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnPencil = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnPencil.Image = Textures.Pencil;
+
+            btnEraser = new Button(new Vector2(btnPencil.Bounds.X + btnPencil.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnEraser.Image = Textures.Eraser;
+
+            btnLine = new Button(new Vector2(btnEraser.Bounds.X + btnEraser.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnLine.Image = Textures.Line;
 
             this.DrawMode = DrawMode.Pencil;
 
@@ -68,20 +74,33 @@ namespace FlipBook
 
         public override void Update()
         {
-            btn.Update();
+            btnPencil.Update();
             btnEraser.Update();
+            btnLine.Update();
 
-            if (btn.Clicked)
+            if (btnPencil.Clicked)
             {
                 this.DrawMode = DrawMode.Pencil;
-                btn.IsSelected = true;
+                btnPencil.IsSelected = true;
+
                 btnEraser.IsSelected = false;
+                btnLine.IsSelected = false;
             }
             if (btnEraser.Clicked)
             {
                 this.DrawMode = DrawMode.Eraser;
                 btnEraser.IsSelected = true;
-                btn.IsSelected = false;
+
+                btnPencil.IsSelected = false;
+                btnLine.IsSelected = false;
+            }
+            if(btnLine.Clicked)
+            {
+                this.DrawMode = DrawMode.Line;
+                btnLine.IsSelected = true;
+
+                btnEraser.IsSelected = false;
+                btnPencil.IsSelected = false;
             }
         }
 
@@ -89,8 +108,9 @@ namespace FlipBook
         {
             Globals.SpriteBatch.Draw(texture, this.Bounds, Color.White);
 
-            btn.Draw();
+            btnPencil.Draw();
             btnEraser.Draw();
+            btnLine.Draw();
         }
     }
 }

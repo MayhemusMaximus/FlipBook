@@ -62,7 +62,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Eraser.xnb</Output>
-      <Time>2015-11-09T13:35:29.9292605-06:00</Time>
+      <Time>2015-11-09T16:26:27.7742605-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Line.png</Source>
+      <Name>Line</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Line.xnb</Output>
+      <Time>2015-11-09T16:34:00.4572605-06:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -5,3 +5,4 @@ Content\TextBox.xnb
 Content\Arial_8.xnb
 Content\Pencil.xnb
 Content\Eraser.xnb
+Content\Line.xnb
