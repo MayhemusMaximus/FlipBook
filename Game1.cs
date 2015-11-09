@@ -29,6 +29,9 @@ namespace FlipBook
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 500;
+            Globals.Graphics = graphics;
 
             // TODO: UNVISIBLE MOUSE
             IsMouseVisible = true;
@@ -147,16 +150,16 @@ namespace FlipBook
                 this.Exit();
 
             // TODO: Add your update logic here
-            Globals.CurrentKeyboardState = Keyboard.GetState();
+            Input.CurrentKeyboardState = Keyboard.GetState();
 
-            if (Globals.CurrentKeyboardState.IsKeyDown(Keys.Space) && !Globals.PreviousKeyboardState.IsKeyDown(Keys.Space)) change = true;
+            if (Input.CurrentKeyboardState.IsKeyDown(Keys.Space) && !Input.PreviousKeyboardState.IsKeyDown(Keys.Space)) change = true;
 
-            Globals.CurrentMouseState = Mouse.GetState();
+            Input.CurrentMouseState = Mouse.GetState();
 
-            if (Globals.CurrentMouseState.ScrollWheelValue != Globals.PreviousMouseState.ScrollWheelValue)
+            if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
             {
                 Globals.ScaleChanged = true;
-                if (Globals.CurrentMouseState.ScrollWheelValue < Globals.PreviousMouseState.ScrollWheelValue)
+                if (Input.CurrentMouseState.ScrollWheelValue < Input.PreviousMouseState.ScrollWheelValue)
                     Globals.Scale--;
                 else
                     Globals.Scale++;
@@ -168,8 +171,8 @@ namespace FlipBook
 
             ScreenManager.Update();
 
-            Globals.PreviousKeyboardState = Globals.CurrentKeyboardState;
-            Globals.PreviousMouseState = Globals.CurrentMouseState;
+            Input.PreviousKeyboardState = Input.CurrentKeyboardState;
+            Input.PreviousMouseState = Input.CurrentMouseState;
 
 
 

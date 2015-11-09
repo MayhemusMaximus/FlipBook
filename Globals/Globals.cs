@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+//using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +12,11 @@ namespace FlipBook
     {
         public static SpriteBatch SpriteBatch;
         public static GraphicsDevice GraphicsDevice;
+        public static GraphicsDeviceManager Graphics;
+        public static Vector2 GameSize;
 
         public static Vector2 ThumbnailSize { get; set; }
         public static Vector2 ImageSize { get; set; }
-
-        // Input
-        public static KeyboardState CurrentKeyboardState;
-        public static KeyboardState PreviousKeyboardState;
-
-        public static MouseState CurrentMouseState;
-        public static MouseState PreviousMouseState;
 
         public static Boolean ScaleChanged = false;
         private static int scale = 10;

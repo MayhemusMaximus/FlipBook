@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlipBook", "FlipBook.csproj", "{E48CE87B-BCF2-428C-972F-0D1AA0FBDA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlipBookContent", "..\FlipBookContent\FlipBookContent.contentproj", "{910E346D-2186-4165-AEB8-6C80DDA90443}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E48CE87B-BCF2-428C-972F-0D1AA0FBDA02}.Debug|x86.ActiveCfg = Debug|x86
+		{E48CE87B-BCF2-428C-972F-0D1AA0FBDA02}.Debug|x86.Build.0 = Debug|x86
+		{E48CE87B-BCF2-428C-972F-0D1AA0FBDA02}.Release|x86.ActiveCfg = Release|x86
+		{E48CE87B-BCF2-428C-972F-0D1AA0FBDA02}.Release|x86.Build.0 = Release|x86
+		{910E346D-2186-4165-AEB8-6C80DDA90443}.Debug|x86.ActiveCfg = Debug|x86
+		{910E346D-2186-4165-AEB8-6C80DDA90443}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

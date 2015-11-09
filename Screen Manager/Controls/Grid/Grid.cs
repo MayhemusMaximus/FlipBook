@@ -13,6 +13,8 @@ namespace FlipBook
         public Boolean CanPan = true;
         public Boolean ShowGridLines = true;
 
+        public Color DrawColor { get; set; }
+
         private Vector2 gridSize;
         public Vector2 GridSize
         {
@@ -42,8 +44,9 @@ namespace FlipBook
         {
             BuildTexture();
             Position = position;
-            GridSize = new Vector2(16, 16);
+            GridSize = size;
             makeBox();
+            DrawColor = Color.Orange;
         }
 
         public void makeBox()
@@ -119,18 +122,19 @@ namespace FlipBook
                 RebuildGrid();
             }
 
-            if (Globals.CurrentMouseState.LeftButton == ButtonState.Pressed)
-                ColorCell(new Point(Globals.CurrentMouseState.X,Globals.CurrentMouseState.Y));
+            if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+                ColorCell(Input.CurrentMousePosition);
 
             HandlePan();
         }
 
         private void HandlePan()
         {
-            if (Globals.CurrentMouseState.MiddleButton == ButtonState.Pressed && Globals.PreviousMouseState.MiddleButton == ButtonState.Pressed)
+            if (Input.CurrentMouseState.MiddleButton == ButtonState.Pressed && Input.PreviousMouseState.MiddleButton == ButtonState.Pressed)
             {
-                Vector2 currentPosition = new Vector2(Globals.CurrentMouseState.X, Globals.CurrentMouseState.Y);
-                Vector2 previousPosition = new Vector2(Globals.PreviousMouseState.X, Globals.PreviousMouseState.Y);
+                Vector2 currentPosition = Input.CurrentMousePosition.ToVector2();
+                //Input.CurrentMousePosition.ToVector2();
+                Vector2 previousPosition = Input.PreviousMousePosition.ToVector2();
                 Vector2 delta = currentPosition - previousPosition;
                 Pan(delta);
             }
@@ -149,7 +153,7 @@ namespace FlipBook
             {
                 if(cell.Bounds.Contains(point))
                 {
-                    cell.Color = Color.Black;
+                    cell.Color = DrawColor;
                     break;   
                 }
             }

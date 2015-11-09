@@ -66,17 +66,26 @@
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Globals\Extensions.cs" />
     <Compile Include="Globals\SpriteFonts.cs" />
+    <Compile Include="Globals\Input.cs" />
+    <Compile Include="Screen Manager\Controls\Color Swatch\ArraySwatch.cs" />
+    <Compile Include="Screen Manager\Controls\Color Swatch\ArraySwatchSelector.cs" />
     <Compile Include="Screen Manager\Controls\Control.cs" />
-    <Compile Include="Screen Manager\Controls\Grid.cs" />
-    <Compile Include="Screen Manager\Controls\GridCell.cs" />
-    <Compile Include="Screen Manager\Controls\Swatch.cs" />
+    <Compile Include="Screen Manager\Controls\Grid\Grid.cs" />
+    <Compile Include="Screen Manager\Controls\Grid\GridCell.cs" />
+    <Compile Include="Screen Manager\Controls\Color Swatch\Swatch.cs" />
+    <Compile Include="Screen Manager\Controls\Color Swatch\VerticalSwatch.cs" />
+    <Compile Include="Screen Manager\Controls\Color Swatch\VerticalSwatchSelector.cs" />
     <Compile Include="Screen Manager\Screens\BaseScreen.cs" />
     <Compile Include="Screen Manager\Screens\Frame.cs" />
     <Compile Include="Screen Manager\Screens\FramePalette.cs" />
