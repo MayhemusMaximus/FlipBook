@@ -10,6 +10,7 @@ namespace FlipBook
 {
     public class Grid : BaseScreen
     {
+        public DrawMode DrawMode { get; set; }
         public Boolean CanPan = true;
         public Boolean ShowGridLines = true;
 
@@ -142,7 +143,6 @@ namespace FlipBook
 
         private void Pan(Vector2 delta)
         {
-            Console.WriteLine(delta);
             Position = Position + delta;
             RebuildGrid();
         }
@@ -153,7 +153,10 @@ namespace FlipBook
             {
                 if(cell.Bounds.Contains(point))
                 {
-                    cell.Color = DrawColor;
+                    if(this.DrawMode == DrawMode.Pencil)
+                        cell.Color = DrawColor;
+                    if (this.DrawMode == DrawMode.Eraser)
+                        cell.Color = Color.White;
                     break;   
                 }
             }

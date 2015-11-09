@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace FlipBook
 {
+    // TODO: CLEAN UP SOLUTION; REMOVE UNEEDED COMMENTS AND ADD NOTES
 
     /// <summary>
     /// This is the main type for your game
@@ -51,7 +52,7 @@ namespace FlipBook
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             
             target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
-            ScreenManager.AddScreen(new WorkSpaceScreen("Work Space",new Vector2(0,0),new Vector2(500,300)));
+            //ScreenManager.AddScreen(new WorkSpaceScreen("Work Space",new Vector2(0,0),new Vector2(500,300)));
 
             base.Initialize();
         }
@@ -71,9 +72,12 @@ namespace FlipBook
             Pixel = Content.Load<Texture2D>("Frames/Pixel");
 
             Textures.TextBox = Content.Load<Texture2D>("TextBox");
+            Textures.Pencil = Content.Load<Texture2D>("Pencil");
+            Textures.Eraser = Content.Load<Texture2D>("Eraser");
 
             // TODO: use this.Content to load your game content here
             //Frame1 = Content.Load<Texture2D>("Frames/1");
+            ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }
 
         public void drawPixels(Vector2 location)
@@ -135,8 +139,8 @@ namespace FlipBook
         }
 
         //KeyboardState previousKeyboardState;
-        Boolean change = false;
-        Double scale = 1.0f;
+        //Boolean change = false;
+        //Double scale = 1.0f;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -152,7 +156,7 @@ namespace FlipBook
             // TODO: Add your update logic here
             Input.CurrentKeyboardState = Keyboard.GetState();
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Keys.Space) && !Input.PreviousKeyboardState.IsKeyDown(Keys.Space)) change = true;
+            //if (Input.CurrentKeyboardState.IsKeyDown(Keys.Space) && !Input.PreviousKeyboardState.IsKeyDown(Keys.Space)) change = true;
 
             Input.CurrentMouseState = Mouse.GetState();
 

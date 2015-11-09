@@ -8,7 +8,6 @@ C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\obj\x86
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Arial_8.xnb
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Frames\Pixel.xnb
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\TextBox.xnb
-C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\obj\x86\Debug\FlipBook.csprojResolveAssemblyReference.cache
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\bin\x86\Debug\FlipBook.exe
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\bin\x86\Debug\FlipBook.pdb
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
@@ -20,3 +19,6 @@ C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\bin\x86\Debug\Content\Fram
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\bin\x86\Debug\Content\TextBox.xnb
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\bin\x86\Debug\Content\Arial_8.xnb
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\obj\x86\Debug\FlipBook.csprojResolveAssemblyReference.cache
+C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\obj\x86\Debug\FlipBook.csprojResolveAssemblyReference.cache
+C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Pencil.xnb
+C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Eraser.xnb
