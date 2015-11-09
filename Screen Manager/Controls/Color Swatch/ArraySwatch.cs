@@ -25,6 +25,7 @@ namespace FlipBook
                 {
                     verticalSwatchColor = value;
                     BuildSwatch(value);
+                    SetColorByPoint = ass.SelectionPoint;
                 }
             }
         }
