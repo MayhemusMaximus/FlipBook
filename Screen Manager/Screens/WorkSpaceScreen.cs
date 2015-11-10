@@ -11,9 +11,9 @@ namespace FlipBook
     {
         // TODO: ADD TOOL BAR TO WORKSPACE
         // TODO: ADD FRAMES PALETTE TO WORKSPACE
-        Textbox tb = new Textbox("1", new Vector2(100, 100), new Vector2(75, 25));
+        //Textbox tb = new Textbox("1", new Vector2(100, 100), new Vector2(75, 25));
 
-        Grid grid = new Grid(new Vector2(32,32), new Vector2(0,0));
+        Grid grid = new Grid(new Vector2(0, 30), new Vector2(32 * Globals.Scale, 32 * Globals.Scale), new Vector2(32, 32));
 
         Toolbar toolbar = new Toolbar();
 
@@ -45,12 +45,13 @@ namespace FlipBook
         {
             grid.DrawColor = swatch.PencilColor;
             grid.DrawMode = toolbar.DrawMode;
+            grid.ShowGridLines = toolbar.ShowGrid;
             grid.Update();
             swatch.Update();
             toolbar.Update();
         }
 
-        Swatch swatch = new Swatch("Swatch", new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300,0), new Vector2(300,Globals.Graphics.PreferredBackBufferHeight - 200));
+        Swatch swatch = new Swatch("Swatch", new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300,30), new Vector2(300,Globals.Graphics.PreferredBackBufferHeight - 200));
 
         public override void Draw()
         {

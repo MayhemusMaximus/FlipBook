@@ -13,5 +13,6 @@ namespace FlipBook
         public static Texture2D Pencil;
         public static Texture2D Eraser;
         public static Texture2D Line;
+        public static Texture2D Grid;
     }
 }

@@ -21,6 +21,7 @@ namespace FlipBook
         Button btnPencil;
         Button btnEraser;
         Button btnLine;
+        Button btnShowGrid;
 
         public DrawMode DrawMode { get; private set; }
 
@@ -38,6 +39,10 @@ namespace FlipBook
 
             btnLine = new Button(new Vector2(btnEraser.Bounds.X + btnEraser.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnLine.Image = Textures.Line;
+
+            btnShowGrid = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnShowGrid.Image = Textures.Grid;
+            btnShowGrid.IsSelected = true;
 
             this.DrawMode = DrawMode.Pencil;
 
@@ -72,11 +77,14 @@ namespace FlipBook
             
         }
 
+        //public Boolean ShowGridLines = true;
+
         public override void Update()
         {
             btnPencil.Update();
             btnEraser.Update();
             btnLine.Update();
+            btnShowGrid.Update();
 
             if (btnPencil.Clicked)
             {
@@ -102,7 +110,16 @@ namespace FlipBook
                 btnEraser.IsSelected = false;
                 btnPencil.IsSelected = false;
             }
+            if(btnShowGrid.Clicked)
+            {
+                btnShowGrid.IsSelected = !btnShowGrid.IsSelected;
+            }
+
+            ShowGrid = btnShowGrid.IsSelected;
+
         }
+
+        public Boolean ShowGrid = true;
 
         public override void Draw()
         {
@@ -111,6 +128,7 @@ namespace FlipBook
             btnPencil.Draw();
             btnEraser.Draw();
             btnLine.Draw();
+            btnShowGrid.Draw();
         }
     }
 }

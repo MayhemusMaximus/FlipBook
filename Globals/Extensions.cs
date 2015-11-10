@@ -12,5 +12,10 @@ namespace FlipBook
         {
             return new Vector2(point.X, point.Y);
         }
+
+        public static Point ToPoint(this Vector2 vector2)
+        {
+            return new Point((int)vector2.X, (int)vector2.Y);
+        }
     }
 }

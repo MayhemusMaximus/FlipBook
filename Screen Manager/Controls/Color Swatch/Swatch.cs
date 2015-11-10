@@ -62,7 +62,7 @@ namespace FlipBook
             //vs.SelectedColor = new Color(125,0,200);
             arraySwatch = new ArraySwatch(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 25), new Vector2(256, 256));
 
-            vs = new VerticalSwatch(new Vector2(arraySwatch.Bounds.Right + 5, 25), new Vector2(20,256));
+            vs = new VerticalSwatch(new Vector2(arraySwatch.Bounds.Right + 5, arraySwatch.Bounds.Y), new Vector2(20,256));
             vs.SelectByColor = Color.Orange;
             BuildTexture();
             //vss = new VerticalSwatchSelector(new Vector2(198, 145), new Vector2(19, 10));
