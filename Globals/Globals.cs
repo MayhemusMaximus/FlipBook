@@ -18,6 +18,8 @@ namespace FlipBook
         public static Vector2 ThumbnailSize { get; set; }
         public static Vector2 ImageSize { get; set; }
 
+        public static Boolean MouseIsVisible { get; set; }
+
         public static Boolean ScaleChanged = false;
         private static int scale = 10;
         public static int Scale

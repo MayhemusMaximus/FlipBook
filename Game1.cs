@@ -35,7 +35,14 @@ namespace FlipBook
             Globals.Graphics = graphics;
 
             // TODO: UNVISIBLE MOUSE
-            IsMouseVisible = true;
+            Globals.MouseIsVisible = true;
+            this.Window.AllowUserResizing = true;
+            this.Window.ClientSizeChanged += Window_ClientSizeChanged;
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            //TODO: make changes to handle the new window size.
         }
 
         /// <summary>
@@ -46,13 +53,12 @@ namespace FlipBook
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Initialization Logic
             Globals.GraphicsDevice = this.GraphicsDevice;
             a = new Texture2D(GraphicsDevice, 10, 10);
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             
             target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
-            //ScreenManager.AddScreen(new WorkSpaceScreen("Work Space",new Vector2(0,0),new Vector2(500,300)));
 
             base.Initialize();
         }
@@ -66,19 +72,20 @@ namespace FlipBook
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Globals.SpriteBatch = spriteBatch;
-            changepixels(Color.Red);
+            // TODO: Explore changepixels(Color color) Call Here
+            //changepixels(Color.Red);
 
             SpriteFonts.Arial_8 = Content.Load<SpriteFont>("Arial_8");
             Pixel = Content.Load<Texture2D>("Frames/Pixel");
 
-            Textures.TextBox = Content.Load<Texture2D>("TextBox");
-            Textures.Pencil = Content.Load<Texture2D>("Pencil");
-            Textures.Eraser = Content.Load<Texture2D>("Eraser");
-            Textures.Line = Content.Load<Texture2D>("Line");
-            Textures.Grid = Content.Load<Texture2D>("Grid");
 
-            // TODO: use this.Content to load your game content here
-            //Frame1 = Content.Load<Texture2D>("Frames/1");
+            // Load Game Content
+            Textures.TextBox = this.Content.Load<Texture2D>("TextBox");
+            Textures.Pencil = this.Content.Load<Texture2D>("Pencil");
+            Textures.Eraser = this.Content.Load<Texture2D>("Eraser");
+            Textures.Line = this.Content.Load<Texture2D>("Line");
+            Textures.Grid = this.Content.Load<Texture2D>("Grid");
+
             ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }
 
@@ -87,11 +94,7 @@ namespace FlipBook
             Color[] colors = new Color[a.Width * a.Height];
             a.GetData(colors);
 
-            //Color[,] data2D = new Color[a.Width, a.Height];
-
             int ndx = 0;
-
-            //Color c = data[ndx];
 
             for(int y = 0; y < a.Width; y++)
             {
@@ -106,29 +109,27 @@ namespace FlipBook
 
         }
 
-        public void changepixels(Color color)
-        {
-            //GraphicsDevice.SetRenderTarget(target);
+        // TODO: Explore changepixels(Color color)
+        //public void changepixels(Color color)
+        //{
+        //    //GraphicsDevice.SetRenderTarget(target);
 
-            GraphicsDevice.Textures[0] = null;
+        //    GraphicsDevice.Textures[0] = null;
 
-            Color[] data = new Color[a.Width * a.Height];
-            a.GetData(data);
+        //    Color[] data = new Color[a.Width * a.Height];
+        //    a.GetData(data);
 
-            int ndx = 4 * a.Width + 3;
+        //    int ndx = 4 * a.Width + 3;
 
-            for (int x = 0; x < a.Width * a.Height; x = x + 5 )
-            {
-                data[x] = color;
-            }
-                //data[ndx] = Color.Red;
+        //    for (int x = 0; x < a.Width * a.Height; x = x + 5 )
+        //    {
+        //        data[x] = color;
+        //    }
 
-            a.SetData(data);
+        //    a.SetData(data);
 
-            GraphicsDevice.Textures[0] = a;
-
-            //GraphicsDevice.SetRenderTarget(null);
-        }
+        //    GraphicsDevice.Textures[0] = a;
+        //}
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -136,13 +137,8 @@ namespace FlipBook
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
             ScreenManager.Unload();
         }
-
-        //KeyboardState previousKeyboardState;
-        //Boolean change = false;
-        //Double scale = 1.0f;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -151,14 +147,11 @@ namespace FlipBook
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
 
-            // TODO: Add your update logic here
+            // Update Logic
+            this.IsMouseVisible = Globals.MouseIsVisible;
+
             Input.CurrentKeyboardState = Keyboard.GetState();
-
-            //if (Input.CurrentKeyboardState.IsKeyDown(Keys.Space) && !Input.PreviousKeyboardState.IsKeyDown(Keys.Space)) change = true;
 
             Input.CurrentMouseState = Mouse.GetState();
 
@@ -193,25 +186,8 @@ namespace FlipBook
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // Drawing
             spriteBatch.Begin();
-
-
-            //spriteBatch.DrawString(SpriteFonts.Arial_8, s, new Vector2(100, 100), Color.Black);
-
-            //if(change)
-            //{
-            //    changepixels(Color.Blue);
-            //    spriteBatch.Draw(a, new Rectangle(0, 0, (int)scale * 50, (int)scale * 50), Color.White);
-            //    change = false;
-            //}
-            //else
-            //{
-            //    spriteBatch.Draw(a, new Rectangle(0, 0, (int)scale * 50, (int)scale * 50), Color.White);
-            //}
-
-
-            //drawPixels(new Vector2(300, 300));
 
             ScreenManager.Draw();
 

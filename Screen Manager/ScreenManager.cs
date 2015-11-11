@@ -9,6 +9,7 @@ namespace FlipBook
     {
         #region Variables
 
+        public static Boolean MouseIsVisible = true;
         public static Dictionary<String, BaseScreen> ActiveScreens = new Dictionary<String, BaseScreen>();
         public static Dictionary<String, BaseScreen> NewScreens = new Dictionary<String, BaseScreen>();
 
@@ -34,6 +35,7 @@ namespace FlipBook
 
         public static void Update()
         {
+            
             AddScreens();
 
             foreach(KeyValuePair<String,BaseScreen> screen in ActiveScreens)

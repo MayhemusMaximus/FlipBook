@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,10 +7,11 @@ namespace FlipBook
     public class VerticalSwatchSelector : BaseScreen
     {
         private int point;
+
         public int Point
         {
             get { return point; }
-            set 
+            set
             {
                 point = value;
                 Position = new Vector2(this.Position.X, point - ((int)Size.Y / 2));
@@ -21,6 +19,7 @@ namespace FlipBook
         }
 
         private Texture2D colorSelector;
+
         public VerticalSwatchSelector()
         {
             Name = "Vertical Swatch Selector";
@@ -50,12 +49,10 @@ namespace FlipBook
 
         public override void Update()
         {
-            
         }
 
         public override void Draw()
         {
-
             Globals.SpriteBatch.Draw(colorSelector, new Rectangle(Bounds.X, Bounds.Y, 5, 10), Color.White);
         }
 
