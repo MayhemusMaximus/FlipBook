@@ -12,6 +12,7 @@ namespace FlipBook
     {
         public DrawMode DrawMode { get; set; }
         public Boolean CanPan = true;
+        public Boolean CanZoom = true;
         public Boolean ShowGridLines = true;
 
         public Color DrawColor { get; set; }
@@ -118,12 +119,8 @@ namespace FlipBook
         
         public override void Update()
         {
-            if(Globals.ScaleChanged)
-            {
-                CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
-                makeBox();
-                RebuildGrid();
-            }
+            if (Globals.ScaleChanged && this.CanZoom)
+                HandleZoom();
 
             switch(this.DrawMode)
             {
@@ -138,8 +135,15 @@ namespace FlipBook
                     break;
             }
 
+            if(this.CanPan)
+                HandlePan();
+        }
 
-            HandlePan();
+        private void HandleZoom()
+        {
+            CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
+            makeBox();
+            RebuildGrid();
         }
 
         private void HandlePencil()

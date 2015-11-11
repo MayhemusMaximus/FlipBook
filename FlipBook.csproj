@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globals\Extensions.cs" />
+    <Compile Include="Globals\Frames.cs" />
     <Compile Include="Globals\SpriteFonts.cs" />
     <Compile Include="Globals\Input.cs" />
     <Compile Include="Screen Manager\Controls\Button.cs" />

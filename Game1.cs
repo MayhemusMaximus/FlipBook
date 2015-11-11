@@ -59,6 +59,8 @@ namespace FlipBook
             
             target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
 
+            Globals.ImageSize = new Vector2(32, 32);
+
             base.Initialize();
         }
 
