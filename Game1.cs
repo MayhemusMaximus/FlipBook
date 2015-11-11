@@ -34,7 +34,6 @@ namespace FlipBook
             graphics.PreferredBackBufferHeight = 500;
             Globals.Graphics = graphics;
 
-            // TODO: UNVISIBLE MOUSE
             Globals.MouseIsVisible = true;
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += Window_ClientSizeChanged;

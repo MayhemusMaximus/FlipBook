@@ -45,7 +45,7 @@ namespace FlipBook
         {
             BuildTexture();
             Position = position;
-            this.Size = size * Globals.Scale;
+            this.Size = size;
             GridSize = pixels;
             makeBox();
             DrawColor = Color.Orange;
@@ -98,7 +98,7 @@ namespace FlipBook
                     Cells[x, y].Bounds = new Rectangle((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale), Globals.Scale, Globals.Scale);
                 }
             }
-            this.Size = new Vector2(GridSize.X * Globals.Scale, GridSize.Y * Globals.Scale);
+            //this.Size = new Vector2(GridSize.X * Globals.Scale, GridSize.Y * Globals.Scale);
         }
 
 
@@ -164,6 +164,7 @@ namespace FlipBook
                 {
                     if (this.Bounds.Contains(Input.CurrentMousePosition))
                     {
+                        bool endLoop = false;
                         for (int x = 0; x < this.GridSize.X; x++)
                         {
                             for (int y = 0; y < this.GridSize.Y; y++)
@@ -173,9 +174,13 @@ namespace FlipBook
                                     drawingLine = true;
                                     //LineStart = Input.CurrentMousePosition.ToVector2();
                                     LineStart = new Vector2((Cells[x, y].Bounds.Right + Cells[x, y].Bounds.X) - Cells[x, y].Bounds.X, (Cells[x, y].Bounds.Bottom + Cells[x, y].Bounds.Y) - Cells[x, y].Bounds.Y);
-                                    break;
+                                    endLoop = true;
                                 }
+                                if (endLoop)
+                                    break;
                             }
+                            if (endLoop)
+                                break;
                         }
                     }
                 }
