@@ -10,12 +10,12 @@ namespace FlipBook
 {
     public class Grid : BaseScreen
     {
-        public DrawMode DrawMode { get; set; }
-        public Boolean CanPan = true;
-        public Boolean CanZoom = true;
+        //public DrawMode DrawMode { get; set; }
+        //public Boolean CanPan = true;
+        //public Boolean CanZoom = true;
         public Boolean ShowGridLines = true;
 
-        public Color DrawColor { get; set; }
+        //public Color DrawColor { get; set; }
 
         private Vector2 gridSize;
         public Vector2 GridSize
@@ -42,14 +42,16 @@ namespace FlipBook
 
         public Texture2D CellBorder = new Texture2D(Globals.GraphicsDevice, 10, 10);
 
-        public Grid(Vector2 position, Vector2 size, Vector2 pixels)
+        //public Grid(Vector2 position, Vector2 size, Vector2 pixels)
+        public Grid(Vector2 position, Vector2 size)
         {
             BuildTexture();
             Position = position;
-            this.Size = size;
-            GridSize = pixels;
+            this.Size = new Vector2(size.X * Globals.Scale, size.Y * Globals.Scale);
+            GridSize = size;
+            //GridSize = pixels;
             makeBox();
-            DrawColor = Color.Orange;
+            //DrawColor = Color.Orange;
         }
 
         public void makeBox()
@@ -89,7 +91,7 @@ namespace FlipBook
             Globals.GraphicsDevice.Textures[0] = Textures.texture;
         }
 
-        private void RebuildGrid()
+        public void RebuildGrid()
         {
 
             for (int x = 0; x < GridSize.X; x++)
@@ -119,150 +121,6 @@ namespace FlipBook
         
         public override void Update()
         {
-            if (Globals.ScaleChanged && this.CanZoom)
-                HandleZoom();
-
-            switch(this.DrawMode)
-            {
-                case DrawMode.Pencil:
-                    HandlePencil();
-                    break;
-                case DrawMode.Eraser:
-                    HandleEraser();
-                    break;
-                case DrawMode.Line:
-                    HandleLine();
-                    break;
-            }
-
-            if(this.CanPan)
-                HandlePan();
-        }
-
-        private void HandleZoom()
-        {
-            CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
-            makeBox();
-            RebuildGrid();
-        }
-
-        private void HandlePencil()
-        {
-            if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
-                ColorCell(Input.CurrentMousePosition, this.DrawColor);
-        }
-
-        private void HandleEraser()
-        {
-            if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
-                ColorCell(Input.CurrentMousePosition, Color.White);
-        }
-
-        private Boolean drawingLine = false;
-        private Vector2 LineStart = Vector2.Zero;
-        private void HandleLine()
-        {
-            if(!drawingLine)
-            {
-                if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
-                {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
-                        bool endLoop = false;
-                        for (int x = 0; x < this.GridSize.X; x++)
-                        {
-                            for (int y = 0; y < this.GridSize.Y; y++)
-                            {
-                                if (Cells[x, y].Bounds.Contains(Input.CurrentMousePosition))
-                                {
-                                    drawingLine = true;
-                                    //LineStart = Input.CurrentMousePosition.ToVector2();
-                                    LineStart = new Vector2((Cells[x, y].Bounds.Right + Cells[x, y].Bounds.X) - Cells[x, y].Bounds.X, (Cells[x, y].Bounds.Bottom + Cells[x, y].Bounds.Y) - Cells[x, y].Bounds.Y);
-                                    endLoop = true;
-                                }
-                                if (endLoop)
-                                    break;
-                            }
-                            if (endLoop)
-                                break;
-                        }
-                    }
-                }
-
-            }
-            else
-            {
-                if (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
-                {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
-                        drawingLine = false;
-                        createLine();
-                    }
-                }
-            }
-        }
-
-        public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
-        {
-            return LineIntersectsLine(p1, p2, new Point(r.X, r.Y), new Point(r.X + r.Width, r.Y)) ||
-                   LineIntersectsLine(p1, p2, new Point(r.X + r.Width, r.Y), new Point(r.X + r.Width, r.Y + r.Height)) ||
-                   LineIntersectsLine(p1, p2, new Point(r.X + r.Width, r.Y + r.Height), new Point(r.X, r.Y + r.Height)) ||
-                   LineIntersectsLine(p1, p2, new Point(r.X, r.Y + r.Height), new Point(r.X, r.Y)) ||
-                   (r.Contains(p1) && r.Contains(p2));
-        }
-
-        private static bool LineIntersectsLine(Point l1p1, Point l1p2, Point l2p1, Point l2p2)
-        {
-            float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
-            float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
-
-            if (d == 0)
-            {
-                return false;
-            }
-
-            float r = q / d;
-
-            q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
-            float s = q / d;
-
-            if (r < 0 || r > 1 || s < 0 || s > 1)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void HandlePan()
-        {
-            if (Input.CurrentMouseState.MiddleButton == ButtonState.Pressed && Input.PreviousMouseState.MiddleButton == ButtonState.Pressed)
-            {
-                Vector2 currentPosition = Input.CurrentMousePosition.ToVector2();
-                //Input.CurrentMousePosition.ToVector2();
-                Vector2 previousPosition = Input.PreviousMousePosition.ToVector2();
-                Vector2 delta = currentPosition - previousPosition;
-                Pan(delta);
-            }
-        }
-
-        private void Pan(Vector2 delta)
-        {
-            Position = Position + delta;
-            RebuildGrid();
-        }
-
-        private void ColorCell(Point point, Color color)
-        {
-            foreach(GridCell cell in Cells)
-            {
-                if(cell.Bounds.Contains(point))
-                {
-                    cell.Color = color;
-                    break;
-                }
-            }
         }
 
         public override void Draw()
@@ -275,63 +133,6 @@ namespace FlipBook
                     Globals.SpriteBatch.Draw(Textures.texture, Cells[x, y].Bounds, Cells[x, y].Color);
                     if(ShowGridLines)
                         Globals.SpriteBatch.Draw(CellBorder, Cells[x, y].Bounds, Color.White);
-                }
-            }
-
-            if (drawingLine)
-                DrawLine();
-        }
-
-        public void DrawLine()
-        {
-            if(this.Bounds.Contains(Input.CurrentMousePosition))
-            {
-                for (int x = 0; x < this.GridSize.X; x++)
-                {
-                    for (int y = 0; y < this.GridSize.Y; y++)
-                    {
-                        if (Cells[x, y].Bounds.Contains(Input.CurrentMousePosition))
-                        {
-                            lineEnd = new Vector2((Cells[x, y].Bounds.Right + Cells[x,y].Bounds.X) - Cells[x, y].Bounds.X, (Cells[x, y].Bounds.Bottom + Cells[x, y].Bounds.Y) - Cells[x, y].Bounds.Y);
-                        }
-                    }
-                }
-            }
-            for (int x = 0; x < GridSize.X; x++)
-            {
-                for (int y = 0; y < GridSize.Y; y++)
-                {
-                    if(LineIntersectsRect(LineStart.ToPoint(), lineEnd.ToPoint(), Cells[x,y].Bounds))
-                    {
-                        Globals.SpriteBatch.Draw(Textures.texture, Cells[x, y].Bounds, DrawColor);
-                    }
-                }
-            }
-        }
-
-        Vector2 lineEnd = Vector2.Zero;
-        private void createLine()
-        {
-            for (int x = 0; x < this.GridSize.X; x++)
-            {
-                for (int y = 0; y < this.GridSize.Y; y++)
-                {
-                    if (Cells[x, y].Bounds.Contains(Input.CurrentMousePosition))
-                    {
-                        lineEnd = new Vector2((Cells[x, y].Bounds.Right + Cells[x, y].Bounds.X) - Cells[x, y].Bounds.X, (Cells[x, y].Bounds.Bottom + Cells[x, y].Bounds.Y) - Cells[x, y].Bounds.Y);
-                    }
-                }
-            }
-
-            for (int x = 0; x < GridSize.X; x++)
-            {
-                for (int y = 0; y < GridSize.Y; y++)
-                {
-                    //Globals.SpriteBatch.Draw(Textures.texture, Cells[x, y].Bounds, Cells[x, y].Color);
-                    if (LineIntersectsRect(LineStart.ToPoint(), lineEnd.ToPoint(), Cells[x, y].Bounds))
-                    {
-                        Cells[x, y].Color = this.DrawColor;
-                    }
                 }
             }
         }

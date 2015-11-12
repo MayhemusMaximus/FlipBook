@@ -37,6 +37,7 @@ namespace FlipBook
             Globals.MouseIsVisible = true;
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += Window_ClientSizeChanged;
+            FrameManager.AddFrame();
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

@@ -31,5 +31,14 @@ namespace FlipBook
                     scale = value;
             }
         }
+
+        private static Color drawingColor = Color.Orange;
+        public static Color DrawingColor { get { return drawingColor; } set { drawingColor = value; } }
+
+        private static DrawMode drawMode = DrawMode.Pencil;
+        public static DrawMode DrawMode { get { return drawMode; } set { drawMode = value; } }
+
+        private static Boolean showGrid = true;
+        public static Boolean ShowGrid { get { return showGrid; } set { showGrid = value; } }
     }
 }

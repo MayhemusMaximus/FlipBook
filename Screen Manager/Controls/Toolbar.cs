@@ -23,7 +23,7 @@ namespace FlipBook
         Button btnLine;
         Button btnShowGrid;
 
-        public DrawMode DrawMode { get; private set; }
+        //public DrawMode DrawMode { get; private set; }
 
         public Toolbar()
         {
@@ -33,6 +33,7 @@ namespace FlipBook
 
             btnPencil = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnPencil.Image = Textures.Pencil;
+            btnPencil.IsSelected = true;
 
             btnEraser = new Button(new Vector2(btnPencil.Bounds.X + btnPencil.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnEraser.Image = Textures.Eraser;
@@ -44,7 +45,7 @@ namespace FlipBook
             btnShowGrid.Image = Textures.Grid;
             btnShowGrid.IsSelected = true;
 
-            this.DrawMode = DrawMode.Pencil;
+            //this.DrawMode = DrawMode.Pencil;
 
             BuildToolBarTexture();
         }
@@ -88,7 +89,7 @@ namespace FlipBook
 
             if (btnPencil.Clicked)
             {
-                this.DrawMode = DrawMode.Pencil;
+                Globals.DrawMode = DrawMode.Pencil;
                 btnPencil.IsSelected = true;
 
                 btnEraser.IsSelected = false;
@@ -96,7 +97,7 @@ namespace FlipBook
             }
             if (btnEraser.Clicked)
             {
-                this.DrawMode = DrawMode.Eraser;
+                Globals.DrawMode = DrawMode.Eraser;
                 btnEraser.IsSelected = true;
 
                 btnPencil.IsSelected = false;
@@ -104,7 +105,7 @@ namespace FlipBook
             }
             if(btnLine.Clicked)
             {
-                this.DrawMode = DrawMode.Line;
+                Globals.DrawMode = DrawMode.Line;
                 btnLine.IsSelected = true;
 
                 btnEraser.IsSelected = false;
@@ -113,13 +114,14 @@ namespace FlipBook
             if(btnShowGrid.Clicked)
             {
                 btnShowGrid.IsSelected = !btnShowGrid.IsSelected;
+                Globals.ShowGrid = btnShowGrid.IsSelected;
             }
 
-            ShowGrid = btnShowGrid.IsSelected;
+            //ShowGrid = btnShowGrid.IsSelected;
 
         }
 
-        public Boolean ShowGrid = true;
+        //public Boolean ShowGrid = true;
 
         public override void Draw()
         {

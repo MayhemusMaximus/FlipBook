@@ -76,7 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globals\Extensions.cs" />
-    <Compile Include="Globals\Frames.cs" />
+    <Compile Include="Globals\FrameManager.cs" />
+    <Compile Include="Globals\Physics.cs" />
     <Compile Include="Globals\SpriteFonts.cs" />
     <Compile Include="Globals\Input.cs" />
     <Compile Include="Screen Manager\Controls\Button.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Screen Manager\Controls\Color Swatch\VerticalSwatch.cs" />
     <Compile Include="Screen Manager\Controls\Color Swatch\VerticalSwatchSelector.cs" />
     <Compile Include="Screen Manager\Controls\Toolbar.cs" />
+    <Compile Include="Screen Manager\PaintScreen.cs" />
     <Compile Include="Screen Manager\Screens\BaseScreen.cs" />
     <Compile Include="Screen Manager\Screens\Frame.cs" />
     <Compile Include="Screen Manager\Screens\FramePalette.cs" />

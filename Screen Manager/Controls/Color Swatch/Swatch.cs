@@ -10,7 +10,7 @@ namespace FlipBook
 {
     public class Swatch : BaseScreen
     {
-        public Color CurrentColor;
+        //public Color CurrentColor;
         private VerticalSwatch vs;
         private ArraySwatch arraySwatch;
 
@@ -43,15 +43,15 @@ namespace FlipBook
             Globals.GraphicsDevice.Textures[0] = hold;
         }
 
-        public Swatch()
-        {
-            Name = "Swatch Control";
-            Position = new Vector2(200, 200);
-            Size = new Vector2(15, 200);
-            BuildTexture();
-            //vs = new VerticalSwatch(new Vector2(200, 100), new Vector2(15, 200));
-            //arraySwatch = new 
-        }
+        //public Swatch()
+        //{
+        //    Name = "Swatch Control";
+        //    Position = new Vector2(200, 200);
+        //    Size = new Vector2(15, 200);
+        //    BuildTexture();
+        //    //vs = new VerticalSwatch(new Vector2(200, 100), new Vector2(15, 200));
+        //    //arraySwatch = new 
+        //}
 
         public Swatch(String name, Vector2 position, Vector2 size)
         {
@@ -61,6 +61,8 @@ namespace FlipBook
 
             //vs.SelectedColor = new Color(125,0,200);
             arraySwatch = new ArraySwatch(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 25), new Vector2(256, 256));
+            arraySwatch.VerticalSwatchColor = Globals.DrawingColor;
+            //arraySwatch.CurrentColor = Globals.DrawingColor;
 
             vs = new VerticalSwatch(new Vector2(arraySwatch.Bounds.Right + 5, arraySwatch.Bounds.Y), new Vector2(20,256));
             vs.SelectByColor = Color.Orange;
@@ -73,7 +75,8 @@ namespace FlipBook
             vs.Update();
             arraySwatch.VerticalSwatchColor = vs.CurrentColor;
             arraySwatch.Update();
-            PencilColor = arraySwatch.CurrentColor;
+            //PencilColor = arraySwatch.CurrentColor;
+            PencilColor = Globals.DrawingColor;
         }
 
         public override void Draw()
@@ -84,7 +87,8 @@ namespace FlipBook
             vs.Draw();
             arraySwatch.Draw();
 
-            Globals.SpriteBatch.Draw(simpleTexture, new Rectangle((int)this.Bounds.X + 5, (int)this.Bounds.Y + 5, 256, 15), arraySwatch.CurrentColor);
+            //Globals.SpriteBatch.Draw(simpleTexture, new Rectangle((int)this.Bounds.X + 5, (int)this.Bounds.Y + 5, 256, 15), arraySwatch.CurrentColor);
+            Globals.SpriteBatch.Draw(simpleTexture, new Rectangle((int)this.Bounds.X + 5, (int)this.Bounds.Y + 5, 256, 15), Globals.DrawingColor);
         }
     }
 }

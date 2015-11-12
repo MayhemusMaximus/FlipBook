@@ -30,7 +30,7 @@ namespace FlipBook
             }
         }
 
-        public Color CurrentColor { get; private set; }
+        //public Color CurrentColor { get; private set; }
 
         public Color SelectByColor
         {
@@ -42,7 +42,8 @@ namespace FlipBook
         {
             set
             {
-                CurrentColor = getColorFromPoint(value);
+                //CurrentColor = getColorFromPoint(value);
+                Globals.DrawingColor = getColorFromPoint(value);
             }
         }
 
@@ -112,8 +113,8 @@ namespace FlipBook
             this.Position = new Vector2(0, 0);
             this.Size = new Vector2(256, 256);
 
+            ass = new ArraySwatchSelector(new Vector2(Bounds.Right - Bounds.X - 5, Bounds.Bottom - Bounds.Y - 5), new Vector2(10, 10));
             BuildSwatch(Color.Orange);
-            ass = new ArraySwatchSelector(new Vector2(Bounds.Right - Bounds.X - 5, Bounds.Bottom - Bounds.Y - 5), new Vector2(10,10));
         }
 
         public ArraySwatch(Vector2 position, Vector2 size)
@@ -122,8 +123,9 @@ namespace FlipBook
             this.Position = position;
             this.Size = size;
 
-            BuildSwatch(Color.Orange);
             ass = new ArraySwatchSelector(new Vector2(Bounds.X + (Bounds.Width / 2) - 5, Bounds.Y + (Bounds.Height / 2) - 5), new Vector2(10, 10));
+            BuildSwatch(Color.Orange);
+            SetColorByPoint = ass.SelectionPoint;
         }
 
         public override void Update()
@@ -144,6 +146,10 @@ namespace FlipBook
 
         private void BuildSwatch(Color color)
         {
+            //CurrentColor = color;
+            //CurrentColor = getColorFromPoint(ass.SelectionPoint);
+            //Globals.DrawingColor = CurrentColor;
+
             swatch = new Texture2D(Globals.GraphicsDevice, (int)this.Size.X, (int)this.Size.Y);
 
             Texture hold;
