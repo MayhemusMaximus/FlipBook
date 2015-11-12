@@ -33,10 +33,15 @@ namespace FlipBook
 
         private void BuildTexture()
         {
+            Texture hold = Globals.GraphicsDevice.Textures[0];
+            Globals.GraphicsDevice.Textures[0] = null;
+
             Color[] color = new Color[Textures.texture.Width * Textures.texture.Height];
             Textures.texture.GetData(color);
             color[0] = Color.White;
             Textures.texture.SetData(color);
+
+            Globals.GraphicsDevice.Textures[0] = hold;
         }
 
 

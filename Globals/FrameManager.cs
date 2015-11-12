@@ -7,9 +7,10 @@ namespace FlipBook
 {
     public static class FrameManager
     {
-        public static List<Frame> Frames = new List<Frame>();
-        private static List<Frame> addingFrames = new List<Frame>();
-        //private static List<Frame> resequencingFrames = new List<Frame>();
+        public static List<Frame> Frames = new List<Frame>() { };
+
+        private static Boolean selectedFrameChanged = true;
+        private static Frame selectedFrame;
 
         private static Boolean addFrame = false;
         public static void AddFrame()
@@ -19,6 +20,8 @@ namespace FlipBook
 
         public static Boolean ResequenceFrames = false;
 
+        public static Boolean ActiveFrameAltered = false;
+
         public static void Update()
         {
             if (addFrame)
@@ -26,25 +29,48 @@ namespace FlipBook
 
             if(ResequenceFrames)
                 resequenceFrames();
+
+            if(ActiveFrameAltered)
+                updateFramesActiveFrame();
+        }
+
+        private static void updateFramesActiveFrame()
+        {
+            Frames[ActiveFrameIndex] = ActiveFrame;
+        }
+
+        private static int ActiveFrameIndex
+        {
+            get
+            {
+                int ndx = 0;
+                foreach(Frame frame in Frames)
+                {
+                    if (frame.IsActive)
+                        break;
+
+                    ndx++;
+                }
+
+                return ndx;
+            }
         }
 
         public static Frame ActiveFrame
         {
             get
             {
-                Frame retFrame = new Frame();
-                foreach(Frame frame in Frames)
+                if (!selectedFrameChanged)
+                    return selectedFrame;
+                else
                 {
-                    if (frame.IsActive)
-                    {
-                        retFrame = frame;
-                        break;
-                    }
+                    selectedFrameChanged = false;
+                    return getSelectedFrame();
                 }
-                return retFrame;
             }
             set
             {
+                selectedFrameChanged = true;
                 ActiveFrame.IsActive = false;
                 foreach(Frame frame in Frames)
                 {
@@ -57,14 +83,33 @@ namespace FlipBook
             }
         }
 
-        private static void addNewFrame()
+        private static Frame getSelectedFrame()
+        {
+            
+            foreach (Frame frame in Frames)
+            {
+                if (frame.IsActive)
+                {
+                    selectedFrame = frame;
+                    break;
+                }
+            }
+            return selectedFrame;
+        }
+
+        public static void addNewFrame()
         {
             Frame newFrame = new Frame();
-            newFrame.Sequence = Frames[Frames.Count - 1].Sequence + 1;
+            if (Frames.Count > 0)
+                newFrame.Sequence = Frames[Frames.Count - 1].Sequence + 1;
+            else
+                newFrame.Sequence = 1;
             newFrame.Time = 100;
+            selectedFrameChanged = true;
+            selectedFrame = newFrame;
 
 
-            Frames.Add(new Frame());
+            Frames.Add(newFrame);
             ActiveFrame = newFrame;
             addFrame = false;
         }

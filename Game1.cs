@@ -37,7 +37,6 @@ namespace FlipBook
             Globals.MouseIsVisible = true;
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += Window_ClientSizeChanged;
-            FrameManager.AddFrame();
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)
@@ -87,6 +86,9 @@ namespace FlipBook
             Textures.Eraser = this.Content.Load<Texture2D>("Eraser");
             Textures.Line = this.Content.Load<Texture2D>("Line");
             Textures.Grid = this.Content.Load<Texture2D>("Grid");
+
+            FrameManager.addNewFrame();
+            FrameManager.addNewFrame();
 
             ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }
