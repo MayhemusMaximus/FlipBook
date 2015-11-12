@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-//using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FlipBook
 {
@@ -14,6 +10,7 @@ namespace FlipBook
         public static GraphicsDevice GraphicsDevice;
         public static GraphicsDeviceManager Graphics;
         public static Vector2 GameSize;
+        public static GameTime GameTime;
 
         public static Vector2 ThumbnailSize { get; set; }
         public static Vector2 ImageSize { get; set; }

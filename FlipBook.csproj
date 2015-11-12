@@ -80,6 +80,7 @@
     <Compile Include="Globals\Physics.cs" />
     <Compile Include="Globals\SpriteFonts.cs" />
     <Compile Include="Globals\Input.cs" />
+    <Compile Include="Screen Manager\AnimationScreen.cs" />
     <Compile Include="Screen Manager\Controls\Button.cs" />
     <Compile Include="Screen Manager\Controls\Color Swatch\ArraySwatch.cs" />
     <Compile Include="Screen Manager\Controls\Color Swatch\ArraySwatchSelector.cs" />

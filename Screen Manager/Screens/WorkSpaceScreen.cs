@@ -13,6 +13,7 @@ namespace FlipBook
         //private Grid grid = new Grid(new Vector2(0, 30), new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, Globals.Graphics.PreferredBackBufferHeight - 200 - 30), new Vector2(32, 32));
         private PaintScreen paintScreen = new PaintScreen(new Vector2(0,30), new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, Globals.Graphics.PreferredBackBufferHeight - 200 - 30));
         private FramePalette framePalette = new FramePalette(new Vector2(0, Globals.Graphics.PreferredBackBufferHeight - 200), new Vector2(Globals.Graphics.PreferredBackBufferWidth, 200));
+        private AnimationScreen animationScreen = new AnimationScreen(new Vector2(Globals.Graphics.PreferredBackBufferWidth - Globals.ImageSize.X, Globals.Graphics.PreferredBackBufferHeight - 200), Globals.ImageSize);
 
         // TODO: EXPLORE MAKELINE()
         //private Texture2D line = new Texture2D(Globals.GraphicsDevice, 1, 200);
@@ -59,6 +60,7 @@ namespace FlipBook
             swatch.Update();
 
             toolbar.Update();
+            animationScreen.Update();
         }
 
         public override void Draw()
@@ -68,6 +70,7 @@ namespace FlipBook
             toolbar.Draw();
             swatch.Draw();
             framePalette.Draw();
+            animationScreen.Draw();
         }
     }
 }

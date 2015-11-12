@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace FlipBook
 {
@@ -34,6 +28,8 @@ namespace FlipBook
             graphics.PreferredBackBufferHeight = 500;
             Globals.Graphics = graphics;
 
+            Globals.ImageSize = new Vector2(32, 32);
+
             Globals.MouseIsVisible = true;
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += Window_ClientSizeChanged;
@@ -58,8 +54,6 @@ namespace FlipBook
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             
             target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
-
-            Globals.ImageSize = new Vector2(32, 32);
 
             base.Initialize();
         }
@@ -153,6 +147,8 @@ namespace FlipBook
         {
 
             // Update Logic
+            Globals.GameTime = gameTime;
+
             this.IsMouseVisible = Globals.MouseIsVisible;
 
             Input.CurrentKeyboardState = Keyboard.GetState();
