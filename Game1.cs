@@ -24,11 +24,11 @@ namespace FlipBook
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferredBackBufferWidth = 1100;
+            graphics.PreferredBackBufferHeight = 800;
             Globals.Graphics = graphics;
 
-            Globals.ImageSize = new Vector2(32, 32);
+            Globals.ImageSize = new Vector2(128, 128);
 
             Globals.MouseIsVisible = true;
             this.Window.AllowUserResizing = true;
@@ -50,7 +50,7 @@ namespace FlipBook
         {
             // Initialization Logic
             Globals.GraphicsDevice = this.GraphicsDevice;
-            a = new Texture2D(GraphicsDevice, 10, 10);
+            //a = new Texture2D(GraphicsDevice, 10, 10);
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             
             target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
@@ -73,6 +73,8 @@ namespace FlipBook
             SpriteFonts.Arial_8 = Content.Load<SpriteFont>("Arial_8");
             Pixel = Content.Load<Texture2D>("Frames/Pixel");
 
+            Textures.BuildSimpleTexture();
+
 
             // Load Game Content
             Textures.TextBox = this.Content.Load<Texture2D>("TextBox");
@@ -80,32 +82,36 @@ namespace FlipBook
             Textures.Eraser = this.Content.Load<Texture2D>("Eraser");
             Textures.Line = this.Content.Load<Texture2D>("Line");
             Textures.Grid = this.Content.Load<Texture2D>("Grid");
+            Textures.AddFrame = this.Content.Load<Texture2D>("NewFrame");
+            Textures.DeleteFrame = this.Content.Load<Texture2D>("DeleteFrame");
 
+            FrameManager.addNewFrame();
+            FrameManager.addNewFrame();
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
 
             ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }
 
-        public void drawPixels(Vector2 location)
-        {
-            Color[] colors = new Color[a.Width * a.Height];
-            a.GetData(colors);
+        //public void drawPixels(Vector2 location)
+        //{
+        //    Color[] colors = new Color[a.Width * a.Height];
+        //    a.GetData(colors);
 
-            int ndx = 0;
+        //    int ndx = 0;
 
-            for(int y = 0; y < a.Width; y++)
-            {
-                for(int x = 0; x < a.Height; x++)
-                {
-                    Rectangle destination = new Rectangle((int)location.X + (x * 10), (int)location.Y + (y * 10), 10, 10);
+        //    for(int y = 0; y < a.Width; y++)
+        //    {
+        //        for(int x = 0; x < a.Height; x++)
+        //        {
+        //            Rectangle destination = new Rectangle((int)location.X + (x * 10), (int)location.Y + (y * 10), 10, 10);
                     
-                    spriteBatch.Draw(Pixel,destination, colors[ndx]);
-                    ndx++;
-                }
-            }
+        //            spriteBatch.Draw(Pixel,destination, colors[ndx]);
+        //            ndx++;
+        //        }
+        //    }
 
-        }
+        //}
 
         // TODO: Explore changepixels(Color color)
         //public void changepixels(Color color)
@@ -169,6 +175,7 @@ namespace FlipBook
             //if(currentMouseState.ScrollWheelValue)
 
             ScreenManager.Update();
+            FrameManager.Update();
 
             Input.PreviousKeyboardState = Input.CurrentKeyboardState;
             Input.PreviousMouseState = Input.CurrentMouseState;

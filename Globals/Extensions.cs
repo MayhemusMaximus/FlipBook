@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace FlipBook
 {
@@ -34,6 +35,19 @@ namespace FlipBook
 
             retVal.SetData(colors);
             Globals.GraphicsDevice.Textures[0] = hold;
+            return retVal;
+        }
+
+        public static Button ToButton(this string name, List<Button> Buttons)
+        {
+            Button retVal = new Button();
+
+            foreach (Button button in Buttons)
+            {
+                if (button.Name == name)
+                    return button;
+            }
+
             return retVal;
         }
     }

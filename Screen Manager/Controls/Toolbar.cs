@@ -16,14 +16,13 @@ namespace FlipBook
 
     public class Toolbar : BaseScreen
     {
-        Texture2D texture;
 
-        Button btnPencil;
-        Button btnEraser;
-        Button btnLine;
-        Button btnShowGrid;
+        public List<Button> Buttons = new List<Button>();
 
-        //public DrawMode DrawMode { get; private set; }
+        //Button btnPencil;
+        //Button btnEraser;
+        //Button btnLine;
+        //Button btnShowGrid;
 
         public Toolbar()
         {
@@ -31,46 +30,21 @@ namespace FlipBook
             this.Position = new Vector2(0, 0);
             this.Size = new Vector2(Globals.Graphics.PreferredBackBufferWidth, 30);
 
-            btnPencil = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
-            btnPencil.Image = Textures.Pencil;
-            btnPencil.IsSelected = true;
+            //btnPencil = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            //btnPencil.Image = Textures.Pencil;
+            //btnPencil.IsSelected = true;
 
-            btnEraser = new Button(new Vector2(btnPencil.Bounds.X + btnPencil.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
-            btnEraser.Image = Textures.Eraser;
+            //btnEraser = new Button(new Vector2(btnPencil.Bounds.X + btnPencil.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            //btnEraser.Image = Textures.Eraser;
 
-            btnLine = new Button(new Vector2(btnEraser.Bounds.X + btnEraser.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
-            btnLine.Image = Textures.Line;
+            //btnLine = new Button(new Vector2(btnEraser.Bounds.X + btnEraser.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            //btnLine.Image = Textures.Line;
 
-            btnShowGrid = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
-            btnShowGrid.Image = Textures.Grid;
-            btnShowGrid.IsSelected = true;
+            //btnShowGrid = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            //btnShowGrid.Image = Textures.Grid;
+            //btnShowGrid.IsSelected = true;
 
             //this.DrawMode = DrawMode.Pencil;
-
-            BuildToolBarTexture();
-        }
-
-        private void BuildToolBarTexture()
-        {
-            texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
-
-            Texture hold = Globals.GraphicsDevice.Textures[0];
-
-            Color[] colors = new Color[texture.Width * texture.Height];
-            texture.GetData(colors);
-
-            int ndx = 0;
-            for (int y = 0; y < texture.Height; y++ )
-            {
-                for (int x = 0; x < texture.Width; x++)
-                {
-                    colors[ndx] = Color.Wheat;
-                    ndx++;
-                }
-            }
-
-            texture.SetData(colors);
-            Globals.GraphicsDevice.Textures[0] = hold;
         }
 
         public override void Unload()
@@ -78,59 +52,76 @@ namespace FlipBook
             
         }
 
-        //public Boolean ShowGridLines = true;
+        public void Select(String button, Boolean select)
+        {
+            foreach(Button btn in Buttons)
+            {
+                if(button == btn.Name)
+                {
+                    btn.IsSelected = select;
+                    return;
+                }
+            }
+        }
 
         public override void Update()
         {
-            btnPencil.Update();
-            btnEraser.Update();
-            btnLine.Update();
-            btnShowGrid.Update();
-
-            if (btnPencil.Clicked)
+            foreach(Button button in Buttons)
             {
-                Globals.DrawMode = DrawMode.Pencil;
-                btnPencil.IsSelected = true;
+                button.Update();
+            }
+            //btnPencil.Update();
+            //btnEraser.Update();
+            //btnLine.Update();
+            //btnShowGrid.Update();
 
-                btnEraser.IsSelected = false;
-                btnLine.IsSelected = false;
-            }
-            if (btnEraser.Clicked)
-            {
-                Globals.DrawMode = DrawMode.Eraser;
-                btnEraser.IsSelected = true;
+            //if (btnPencil.Clicked)
+            //{
+            //    Globals.DrawMode = DrawMode.Pencil;
+            //    btnPencil.IsSelected = true;
 
-                btnPencil.IsSelected = false;
-                btnLine.IsSelected = false;
-            }
-            if(btnLine.Clicked)
-            {
-                Globals.DrawMode = DrawMode.Line;
-                btnLine.IsSelected = true;
+            //    btnEraser.IsSelected = false;
+            //    btnLine.IsSelected = false;
+            //}
+            //if (btnEraser.Clicked)
+            //{
+            //    Globals.DrawMode = DrawMode.Eraser;
+            //    btnEraser.IsSelected = true;
 
-                btnEraser.IsSelected = false;
-                btnPencil.IsSelected = false;
-            }
-            if(btnShowGrid.Clicked)
-            {
-                btnShowGrid.IsSelected = !btnShowGrid.IsSelected;
-                Globals.ShowGrid = btnShowGrid.IsSelected;
-            }
+            //    btnPencil.IsSelected = false;
+            //    btnLine.IsSelected = false;
+            //}
+            //if(btnLine.Clicked)
+            //{
+            //    Globals.DrawMode = DrawMode.Line;
+            //    btnLine.IsSelected = true;
+
+            //    btnEraser.IsSelected = false;
+            //    btnPencil.IsSelected = false;
+            //}
+            //if(btnShowGrid.Clicked)
+            //{
+            //    btnShowGrid.IsSelected = !btnShowGrid.IsSelected;
+            //    Globals.ShowGrid = btnShowGrid.IsSelected;
+            //}
 
             //ShowGrid = btnShowGrid.IsSelected;
 
         }
 
-        //public Boolean ShowGrid = true;
-
         public override void Draw()
         {
-            Globals.SpriteBatch.Draw(texture, this.Bounds, Color.White);
+            Globals.SpriteBatch.Draw(Textures.SimpleTexture, this.Bounds, Color.Wheat);
 
-            btnPencil.Draw();
-            btnEraser.Draw();
-            btnLine.Draw();
-            btnShowGrid.Draw();
+            foreach(Button button in Buttons)
+            {
+                button.Draw();
+            }
+
+            //btnPencil.Draw();
+            //btnEraser.Draw();
+            //btnLine.Draw();
+            //btnShowGrid.Draw();
         }
     }
 }

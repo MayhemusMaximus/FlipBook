@@ -6,29 +6,17 @@ namespace FlipBook
 {
     public class WorkSpaceScreen : BaseScreen
     {
-        // TODO: ADD FRAMES PALETTE TO WORKSPACE
-
         private Toolbar toolbar = new Toolbar();
         private Swatch swatch = new Swatch("Swatch", new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, 30), new Vector2(300, Globals.Graphics.PreferredBackBufferHeight - 200));
-        //private Grid grid = new Grid(new Vector2(0, 30), new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, Globals.Graphics.PreferredBackBufferHeight - 200 - 30), new Vector2(32, 32));
         private PaintScreen paintScreen = new PaintScreen(new Vector2(0,30), new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, Globals.Graphics.PreferredBackBufferHeight - 200 - 30));
         private FramePalette framePalette = new FramePalette(new Vector2(0, Globals.Graphics.PreferredBackBufferHeight - 200), new Vector2(Globals.Graphics.PreferredBackBufferWidth, 200));
         private AnimationScreen animationScreen = new AnimationScreen(new Vector2(Globals.Graphics.PreferredBackBufferWidth - Globals.ImageSize.X, Globals.Graphics.PreferredBackBufferHeight - 200), Globals.ImageSize);
 
-        // TODO: EXPLORE MAKELINE()
-        //private Texture2D line = new Texture2D(Globals.GraphicsDevice, 1, 200);
-        //public void makeLine()
-        //{
-        //    Color[] colors = new Color[line.Width * line.Height];
-        //    line.GetData(colors);
 
-        //    for(int x = 0; x < colors.Count(); x++)
-        //    {
-        //        colors[x] = Color.Red;
-        //    }
-
-        //    line.SetData(colors);
-        //}
+        //Button btnPencil;
+        //Button btnEraser;
+        //Button btnLine;
+        //Button btnShowGrid;
 
         public WorkSpaceScreen(String name, Vector2 position, Vector2 size)
         {
@@ -36,36 +24,90 @@ namespace FlipBook
             Position = position;
             Size = size;
 
-            //makeLine();
+            Button btnPencil = new Button(new Vector2(this.Bounds.X + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnPencil.Image = Textures.Pencil;
+            btnPencil.IsSelected = true;
+            btnPencil.Name = "Pencil";
+
+            Button btnEraser = new Button(new Vector2(btnPencil.Bounds.X + btnPencil.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnEraser.Image = Textures.Eraser;
+            btnEraser.IsSelected = false;
+            btnEraser.Name = "Eraser";
+
+            Button btnLine = new Button(new Vector2(btnEraser.Bounds.X + btnEraser.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnLine.Image = Textures.Line;
+            btnLine.IsSelected = false;
+            btnLine.Name = "Line";
+
+            Button btnShowGrid = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnShowGrid.Image = Textures.Grid;
+            btnShowGrid.IsSelected = true;
+            btnShowGrid.Name = "ShowGrid";
+
+            toolbar.Buttons.Add(btnPencil);
+            toolbar.Buttons.Add(btnEraser);
+            toolbar.Buttons.Add(btnLine);
+            toolbar.Buttons.Add(btnShowGrid);
+
+            //if(((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected)
+            //{
+
+            //}
         }
 
         public override void Update()
         {
-            //if (grid.Bounds.Contains(Input.CurrentMousePosition))
+            //if (paintScreen.Bounds.Contains(Input.CurrentMousePosition))
             //    Globals.MouseIsVisible = false;
             //else
             //    Globals.MouseIsVisible = true;
-            if (paintScreen.Bounds.Contains(Input.CurrentMousePosition))
-                Globals.MouseIsVisible = false;
-            else
-                Globals.MouseIsVisible = true;
 
-            //grid.DrawColor = swatch.PencilColor;
-            //grid.DrawMode = toolbar.DrawMode;
-            //grid.ShowGridLines = toolbar.ShowGrid;
+            if (((Button)"Pencil".ToButton(toolbar.Buttons)).Clicked)
+            {
+                Globals.DrawMode = DrawMode.Pencil;
 
-            //grid.Update();
+                toolbar.Select("Pencil", true);
+                toolbar.Select("Eraser", false);
+                toolbar.Select("Line", false);
+            }
+            if (((Button)"Eraser".ToButton(toolbar.Buttons)).Clicked)
+            {
+                Globals.DrawMode = DrawMode.Eraser;
+
+                toolbar.Select("Eraser", true);
+                toolbar.Select("Pencil", false);
+                toolbar.Select("Line", false);
+            }
+            if (((Button)"Line".ToButton(toolbar.Buttons)).Clicked)
+            {
+                Globals.DrawMode = DrawMode.Line;
+                //btnLine.IsSelected = true;
+                //btnEraser.IsSelected = false;
+                //btnPencil.IsSelected = false;
+
+                toolbar.Select("Line", true);
+                toolbar.Select("Pencil", false);
+                toolbar.Select("Eraser", false);
+
+            }
+            if (((Button)"ShowGrid".ToButton(toolbar.Buttons)).Clicked)
+            {
+                toolbar.Select("ShowGrid", !((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected);
+                //btnShowGrid.IsSelected = !btnShowGrid.IsSelected;
+                Globals.ShowGrid = ((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected;
+            }
+
             paintScreen.Update();
 
             swatch.Update();
 
             toolbar.Update();
+            framePalette.Update();
             animationScreen.Update();
         }
 
         public override void Draw()
         {
-            //grid.Draw();
             paintScreen.Draw();
             toolbar.Draw();
             swatch.Draw();

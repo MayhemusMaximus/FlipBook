@@ -8,7 +8,6 @@ namespace FlipBook
     public class PaintScreen : BaseScreen
     {
 
-        //private Grid grid = new Grid(new Vector2(0, 30), new Vector2(Globals.Graphics.PreferredBackBufferWidth - 300, Globals.Graphics.PreferredBackBufferHeight - 200 - 30), new Vector2(32, 32));
         private Grid grid = new Grid(new Vector2(0, 30), Globals.ImageSize);
 
         public PaintScreen(Vector2 position, Vector2 size)
