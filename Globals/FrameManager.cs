@@ -60,17 +60,17 @@ namespace FlipBook
         {
             get
             {
-                if (!selectedFrameChanged)
-                    return selectedFrame;
-                else
-                {
-                    selectedFrameChanged = false;
+                //if (!selectedFrameChanged)
+                //    return selectedFrame;
+                //else
+                //{
+                    //selectedFrameChanged = false;
                     return getSelectedFrame();
-                }
+                //}
             }
             set
             {
-                selectedFrameChanged = true;
+                //selectedFrameChanged = true;
                 ActiveFrame.IsActive = false;
                 foreach(Frame frame in Frames)
                 {
