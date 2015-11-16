@@ -74,15 +74,6 @@
       <Time>2015-11-10T16:34:51.1231471-06:00</Time>
     </Item>
     <Item>
-      <Source>Arial_8.spritefont</Source>
-      <Name>Arial_8</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Arial_8.xnb</Output>
-      <Time>2015-11-03T14:31:16.7673169-06:00</Time>
-    </Item>
-    <Item>
       <Source>NewFrame.png</Source>
       <Name>NewFrame</Name>
       <Importer>TextureImporter</Importer>
@@ -108,6 +99,15 @@
       <Options>None</Options>
       <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\PaintCan.xnb</Output>
       <Time>2015-11-16T09:10:20.7181749-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Arial_8.spritefont</Source>
+      <Name>Arial_8</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Arial_8.xnb</Output>
+      <Time>2015-11-03T14:31:16.7673169-06:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

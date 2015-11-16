@@ -237,8 +237,7 @@ namespace FlipBook
                 {
                     if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(Input.CurrentMousePosition))
                     {
-                        Rectangle cell = FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds;
-                        return new Vector2((cell.Right + cell.X)/2, (cell.Bottom + cell.Y)/2);
+                        return FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Center.ToVector2();
                     }
                 }
             }

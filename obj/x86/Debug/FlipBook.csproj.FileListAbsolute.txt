@@ -29,5 +29,4 @@ C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\obj\x86\Debug\FlipBook.exe
 C:\Users\ronnie\Desktop\XNA RESEARCH\C Sharp\FlipBook\obj\x86\Debug\FlipBook.pdb
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\NewFrame.xnb
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\DeleteFrame.xnb
-C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\obj\x86\Debug\FlipBook.csprojResolveAssemblyReference.cache
 C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\PaintCan.xnb
