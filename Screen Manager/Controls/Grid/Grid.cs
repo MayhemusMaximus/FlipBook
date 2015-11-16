@@ -115,7 +115,7 @@ namespace FlipBook
             {
                 for (int y = 0; y < GridSize.Y; y++)
                 {
-                    Cells[x, y] = new GridCell(new Vector2((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale)), Color.White);
+                    Cells[x, y] = new GridCell(new Vector2((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale)), Color.White, new Vector2(x,y));
                 }
             }
         }

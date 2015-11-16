@@ -15,7 +15,7 @@ namespace FlipBook
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D a;
+        //Texture2D a;
         RenderTarget2D target;
 
         Texture2D Pixel;
@@ -84,11 +84,14 @@ namespace FlipBook
             Textures.Grid = this.Content.Load<Texture2D>("Grid");
             Textures.AddFrame = this.Content.Load<Texture2D>("NewFrame");
             Textures.DeleteFrame = this.Content.Load<Texture2D>("DeleteFrame");
+            Textures.PaintCan = this.Content.Load<Texture2D>("PaintCan");
 
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
+
+            FrameManager.ActiveFrame = FrameManager.Frames[0];
 
             ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }

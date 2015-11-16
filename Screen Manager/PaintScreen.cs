@@ -34,12 +34,124 @@ namespace FlipBook
                 case DrawMode.Line:
                     HandleLine();
                     break;
+                case DrawMode.Fill:
+                    HandleFill();
+                    break;
             }
 
             
             HandlePan();
 
             FrameManager.ActiveFrame.Grid.ShowGridLines = Globals.ShowGrid;
+        }
+
+        private void HandleFill()
+        {
+            if(Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
+            {
+                FillGrid(getGridCellMouseIsOver());
+            }
+        }
+
+        private struct GridCheckStruct
+        {
+            public Vector2 ID { get; set; }
+            
+            public Boolean Change { get; set; }
+            public Boolean LeftChecked { get; set; }
+            public Boolean RightChecked { get; set; }
+            public Boolean UpChecked { get; set; }
+            public Boolean DownChecked { get; set; }
+        }
+
+        private void FillGrid(GridCell gridCell)
+        {
+            Color changeColor = gridCell.Color;
+
+            //GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)this.grid.GridSize.X, (int)this.grid.GridSize.Y];
+            GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.GridSize.X, (int)FrameManager.ActiveFrame.Grid.GridSize.Y];
+
+            for(int x = 0; x < (int)this.grid.GridSize.X; x++)
+            {
+                for(int y = 0; y < (int)this.grid.GridSize.Y; y++)
+                {
+                    checkStruct[x, y].Change = false;
+                    checkStruct[x, y].LeftChecked = false;
+                    checkStruct[x, y].RightChecked = false;
+                    checkStruct[x, y].UpChecked = false;
+                    checkStruct[x, y].DownChecked = false;
+                    checkStruct[x,y].ID = new Vector2(x,y);
+                }
+            }
+
+            checkStruct[(int)gridCell.ID.X, (int)gridCell.ID.Y].Change = true;
+
+            Boolean allChecked = false;
+            while(!allChecked)
+            {
+                allChecked = true;
+
+                GridCheckStruct[,] holdStruct = checkStruct;
+
+                foreach(GridCheckStruct index in checkStruct)
+                {
+                    if(index.Change == true)
+                    {
+                        if((int)index.ID.X > 0)
+                            if(!index.LeftChecked)
+                            {
+                                allChecked = false;
+                                if( FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X - 1, (int)index.ID.Y].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X - 1, (int)index.ID.Y].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].LeftChecked = true;
+                            }
+                        if(index.ID.X < FrameManager.ActiveFrame.Grid.GridSize.X - 1)
+                            if (!index.RightChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X + 1, (int)index.ID.Y].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X + 1, (int)index.ID.Y].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].RightChecked = true;
+                            }
+                        if(index.ID.Y > 0)
+                            if (!index.UpChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y - 1].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X, (int)index.ID.Y - 1].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].UpChecked = true;
+                            }
+                        if (index.ID.Y < FrameManager.ActiveFrame.Grid.GridSize.Y - 1)
+                            if (!index.DownChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y + 1].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X, (int)index.ID.Y + 1].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].DownChecked = true;
+                            }
+                    }
+                }
+
+                checkStruct = holdStruct;
+            }
+
+            foreach(GridCheckStruct check in checkStruct)
+            {
+                if(check.Change)
+                {
+                    FrameManager.ActiveFrame.Grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
+                    //this.grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
+                }
+            }
+
         }
 
         public override void Draw()
@@ -148,6 +260,22 @@ namespace FlipBook
                     }
                 }
             }
+        }
+
+        private GridCell getGridCellMouseIsOver()
+        {
+            GridCell gc = new GridCell(new Vector2(0, 0), Color.White, new Vector2(0,0));
+
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                {
+                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(Input.PreviousMousePosition))
+                        return FrameManager.ActiveFrame.Grid.Cells[x, y];
+                }
+            }
+
+            return gc;
         }
 
         Vector2 lineEnd = Vector2.Zero;

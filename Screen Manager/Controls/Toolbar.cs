@@ -11,7 +11,8 @@ namespace FlipBook
     {
         Pencil,
         Eraser,
-        Line
+        Line,
+        Fill
     }
 
     public class Toolbar : BaseScreen

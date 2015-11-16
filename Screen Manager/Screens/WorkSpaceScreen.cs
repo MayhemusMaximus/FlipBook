@@ -39,7 +39,12 @@ namespace FlipBook
             btnLine.IsSelected = false;
             btnLine.Name = "Line";
 
-            Button btnShowGrid = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            Button btnFill = new Button(new Vector2(btnLine.Bounds.X + btnLine.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnFill.Image = Textures.PaintCan;
+            btnFill.IsSelected = false;
+            btnFill.Name = "Fill";
+
+            Button btnShowGrid = new Button(new Vector2(btnFill.Bounds.X + btnFill.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnShowGrid.Image = Textures.Grid;
             btnShowGrid.IsSelected = true;
             btnShowGrid.Name = "ShowGrid";
@@ -47,6 +52,7 @@ namespace FlipBook
             toolbar.Buttons.Add(btnPencil);
             toolbar.Buttons.Add(btnEraser);
             toolbar.Buttons.Add(btnLine);
+            toolbar.Buttons.Add(btnFill);
             toolbar.Buttons.Add(btnShowGrid);
 
             //if(((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected)
@@ -57,6 +63,7 @@ namespace FlipBook
 
         public override void Update()
         {
+            // TODO: Implement Paint Screen Mouse
             //if (paintScreen.Bounds.Contains(Input.CurrentMousePosition))
             //    Globals.MouseIsVisible = false;
             //else
@@ -68,6 +75,7 @@ namespace FlipBook
 
                 toolbar.Select("Pencil", true);
                 toolbar.Select("Eraser", false);
+                toolbar.Select("Fill", false);
                 toolbar.Select("Line", false);
             }
             if (((Button)"Eraser".ToButton(toolbar.Buttons)).Clicked)
@@ -76,17 +84,26 @@ namespace FlipBook
 
                 toolbar.Select("Eraser", true);
                 toolbar.Select("Pencil", false);
+                toolbar.Select("Fill", false);
                 toolbar.Select("Line", false);
+            }
+            if (((Button)"Fill".ToButton(toolbar.Buttons)).Clicked)
+            {
+                Globals.DrawMode = DrawMode.Fill;
+
+                toolbar.Select("Fill", true);
+                toolbar.Select("Line", false);
+                toolbar.Select("Pencil", false);
+                toolbar.Select("Eraser", false);
+
             }
             if (((Button)"Line".ToButton(toolbar.Buttons)).Clicked)
             {
                 Globals.DrawMode = DrawMode.Line;
-                //btnLine.IsSelected = true;
-                //btnEraser.IsSelected = false;
-                //btnPencil.IsSelected = false;
 
                 toolbar.Select("Line", true);
                 toolbar.Select("Pencil", false);
+                toolbar.Select("Fill", false);
                 toolbar.Select("Eraser", false);
 
             }
