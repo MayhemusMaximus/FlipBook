@@ -7,8 +7,6 @@ namespace FlipBook
 {
     public class FramePalette : BaseScreen
     {
-        //Texture2D texture;
-
         List<Rectangle> Thumbnails = new List<Rectangle>();
 
         Toolbar toolbar = new Toolbar();
@@ -19,8 +17,6 @@ namespace FlipBook
             this.Size = size;
 
             toolbar.Position = new Vector2(this.Bounds.X, this.Bounds.Y + 2);
-
-            //BuildTexture();
 
             buildThumbnails();
 
@@ -87,10 +83,9 @@ namespace FlipBook
                 Color frameBorderColor = Color.Wheat;
                 if (frame.IsActive)
                     frameBorderColor = Color.Black;
-                //Globals.SpriteBatch.Draw(texture, new Rectangle(this.Bounds.X + ((this.Bounds.Height - 10) * (frame.Sequence - 1)) + (5 * ndx), this.Bounds.Y + 5, this.Bounds.Height - 10, this.Bounds.Height - 10), frameBorderColor);
-                //Globals.SpriteBatch.Draw(texture, Thumbnails[ndx - 1], frameBorderColor);
+
                 Globals.SpriteBatch.Draw(Textures.SimpleTexture, Thumbnails[ndx - 1], frameBorderColor);
-                //Globals.SpriteBatch.Draw(frame.Grid.ToTexture2D(), new Rectangle(this.Bounds.X + ((this.Bounds.Height - 20) * (frame.Sequence - 1)) + (10 * ndx), this.Bounds.Y + 10, this.Bounds.Height - 20, this.Bounds.Height - 20), Color.White);
+
                 Rectangle imageBounds = new Rectangle(Thumbnails[ndx - 1].X + 5, Thumbnails[ndx - 1].Y + 5, Thumbnails[ndx - 1].Width - 10, Thumbnails[ndx - 1].Height - 10);
                 Globals.SpriteBatch.Draw(frame.Grid.ToTexture2D(), imageBounds, Color.White);
                 ndx++;

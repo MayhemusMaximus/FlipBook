@@ -7,13 +7,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FlipBook
 {
-    public enum MouseButtonState
-    {
-        Pressed,
-        Released,
-        Held,
-        Inactive
-    }
     public static class Input
     {
         //private static KeyboardState currentKeyboardState;

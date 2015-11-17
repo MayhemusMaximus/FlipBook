@@ -60,11 +60,6 @@ namespace FlipBook
             toolbar.Buttons.Add(btnFill);
             toolbar.Buttons.Add(btnRectangle);
             toolbar.Buttons.Add(btnShowGrid);
-
-            //if(((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected)
-            //{
-
-            //}
         }
 
         public override void Update()

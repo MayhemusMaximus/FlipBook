@@ -7,8 +7,76 @@ namespace FlipBook
 {
     public class PaintScreen : BaseScreen
     {
+        #region Todo
+
+        // TODO: Implement Select Feature for Copy, Move, Paste, etc..
+
+        #endregion
+
+
+        #region Variables
+
 
         private Grid grid = new Grid(new Vector2(0, 30), Globals.ImageSize);
+
+        private Boolean drawingLine = false;
+        private Boolean drawingRectangle = false;
+        private Vector2 start = Vector2.Zero;
+        private Vector2 end = Vector2.Zero;
+
+        private struct GridCheckStruct
+        {
+            public Vector2 ID { get; set; }
+
+            //private Boolean change { get; set; }
+            private Boolean leftChecked { get; set; }
+            private Boolean rightChecked { get; set; }
+            private Boolean upChecked { get; set; }
+            private Boolean downChecked { get; set; }
+
+            public Boolean AllChecked { get; private set; }
+            public Boolean Change { get; set; }
+            public Boolean LeftChecked
+            {
+                get { return leftChecked; }
+                set
+                {
+                    leftChecked = value;
+                    AllChecked = (LeftChecked && RightChecked && UpChecked && DownChecked);
+                }
+            }
+            public Boolean RightChecked
+            {
+                get { return rightChecked; }
+                set
+                {
+                    rightChecked = value;
+                    AllChecked = (LeftChecked && RightChecked && UpChecked && DownChecked);
+                }
+            }
+            public Boolean UpChecked
+            {
+                get { return upChecked; }
+                set
+                {
+                    upChecked = value;
+                    AllChecked = (LeftChecked && RightChecked && UpChecked && DownChecked);
+                }
+            }
+            public Boolean DownChecked
+            {
+                get { return downChecked; }
+                set
+                {
+                    downChecked = value;
+                    AllChecked = (LeftChecked && RightChecked && UpChecked && DownChecked);
+                }
+            }
+        }
+
+        #endregion Variables
+
+        #region Constructor
 
         public PaintScreen(Vector2 position, Vector2 size)
         {
@@ -18,25 +86,20 @@ namespace FlipBook
             FrameManager.ActiveFrame.Grid.ShowGridLines = Globals.ShowGrid;
         }
 
+        #endregion Constructor
+
+        #region XNA Loop Methods
+
         public override void Update()
         {
-            if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
-            {
-                Globals.ScaleChanged = true;
-                if (Input.CurrentMouseState.ScrollWheelValue < Input.PreviousMouseState.ScrollWheelValue)
-                    Globals.Scale--;
-                else
-                    Globals.Scale++;
-            }
-            else
-                Globals.ScaleChanged = false;
+            UpdateScale();
 
             if (Globals.ScaleChanged)
                 HandleZoom();
 
             switch (Globals.DrawMode)
             {
-                    // TODO: Handle Rectangle Draw Mode
+                // TODO: Handle Rectangle Draw Mode
                 case DrawMode.Pencil:
                     HandlePencil();
                     break;
@@ -49,6 +112,9 @@ namespace FlipBook
                 case DrawMode.Fill:
                     HandleFill();
                     break;
+                case DrawMode.Rectangle:
+                    HandleRectangle();
+                    break;
             }
 
             
@@ -56,128 +122,71 @@ namespace FlipBook
 
             FrameManager.ActiveFrame.Grid.ShowGridLines = Globals.ShowGrid;
         }
-
-        private void HandleFill()
-        {
-            if(Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
-            {
-                FillGrid(getMouseOverGridCell(Input.CurrentMousePosition));
-            }
-        }
-
-        private struct GridCheckStruct
-        {
-            public Vector2 ID { get; set; }
-            
-            public Boolean Change { get; set; }
-            public Boolean LeftChecked { get; set; }
-            public Boolean RightChecked { get; set; }
-            public Boolean UpChecked { get; set; }
-            public Boolean DownChecked { get; set; }
-        }
-
-        private void FillGrid(GridCell gridCell)
-        {
-            Color changeColor = gridCell.Color;
-
-            GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.GridSize.X, (int)FrameManager.ActiveFrame.Grid.GridSize.Y];
-
-            for(int x = 0; x < (int)this.grid.GridSize.X; x++)
-            {
-                for(int y = 0; y < (int)this.grid.GridSize.Y; y++)
-                {
-                    checkStruct[x, y].Change = false;
-                    checkStruct[x, y].LeftChecked = false;
-                    checkStruct[x, y].RightChecked = false;
-                    checkStruct[x, y].UpChecked = false;
-                    checkStruct[x, y].DownChecked = false;
-                    checkStruct[x,y].ID = new Vector2(x,y);
-                }
-            }
-
-            checkStruct[(int)gridCell.ID.X, (int)gridCell.ID.Y].Change = true;
-
-            Boolean allChecked = false;
-            while(!allChecked)
-            {
-                allChecked = true;
-
-                GridCheckStruct[,] holdStruct = checkStruct;
-
-                foreach(GridCheckStruct index in checkStruct)
-                {
-                    if(index.Change == true)
-                    {
-                        if((int)index.ID.X > 0)
-                            if(!index.LeftChecked)
-                            {
-                                allChecked = false;
-                                if( FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X - 1, (int)index.ID.Y].Color == changeColor)
-                                {
-                                    holdStruct[(int)index.ID.X - 1, (int)index.ID.Y].Change = true;
-                                }
-                                holdStruct[(int)index.ID.X, (int)index.ID.Y].LeftChecked = true;
-                            }
-                        if(index.ID.X < FrameManager.ActiveFrame.Grid.GridSize.X - 1)
-                            if (!index.RightChecked)
-                            {
-                                allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X + 1, (int)index.ID.Y].Color == changeColor)
-                                {
-                                    holdStruct[(int)index.ID.X + 1, (int)index.ID.Y].Change = true;
-                                }
-                                holdStruct[(int)index.ID.X, (int)index.ID.Y].RightChecked = true;
-                            }
-                        if(index.ID.Y > 0)
-                            if (!index.UpChecked)
-                            {
-                                allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y - 1].Color == changeColor)
-                                {
-                                    holdStruct[(int)index.ID.X, (int)index.ID.Y - 1].Change = true;
-                                }
-                                holdStruct[(int)index.ID.X, (int)index.ID.Y].UpChecked = true;
-                            }
-                        if (index.ID.Y < FrameManager.ActiveFrame.Grid.GridSize.Y - 1)
-                            if (!index.DownChecked)
-                            {
-                                allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y + 1].Color == changeColor)
-                                {
-                                    holdStruct[(int)index.ID.X, (int)index.ID.Y + 1].Change = true;
-                                }
-                                holdStruct[(int)index.ID.X, (int)index.ID.Y].DownChecked = true;
-                            }
-                    }
-                }
-
-                checkStruct = holdStruct;
-            }
-
-            foreach(GridCheckStruct check in checkStruct)
-            {
-                if(check.Change)
-                {
-                    FrameManager.ActiveFrame.Grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
-                    //this.grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
-                }
-            }
-
-        }
-
         public override void Draw()
         {
             FrameManager.ActiveFrame.Grid.Draw();
 
             if (drawingLine)
-                DrawLine();
+                drawLine(start, end);
+
+            if (drawingRectangle)
+                DrawRectangle();
         }
+
+        private void DrawRectangle()
+        {
+            end = MouseDrawPoint(Input.CurrentMousePosition);
+
+            drawLine(start, new Vector2(start.X, end.Y));
+            drawLine(new Vector2(start.X, end.Y), end);
+            drawLine(end, new Vector2(end.X, start.Y));
+            drawLine(new Vector2(end.X, start.Y), start);
+
+        }
+
+        /// <summary>
+        /// This will draw a non-static line, so it can be moved by mouse position.
+        /// </summary>
+        private void drawLine(Vector2 start, Vector2 end)
+        {
+            //if (FrameManager.ActiveFrame.Grid.Bounds.Contains(Input.CurrentMousePosition))
+                //end = MouseDrawPoint(Input.CurrentMousePosition);
+
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                {
+                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+                    {
+                        Globals.SpriteBatch.Draw(Textures.texture, FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds, Globals.DrawingColor);
+                    }
+                }
+            }
+        }
+
+
+
+        #endregion XNA Loop Methods
+
+        #region Handlers
 
         private void HandleZoom()
         {
             FrameManager.ActiveFrame.Grid.CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
             FrameManager.ActiveFrame.Grid.makeBox();
             FrameManager.ActiveFrame.Grid.RebuildGrid();
+        }
+
+        private void HandlePan()
+        {
+            // TODO: Implement MiddleButton evaluation in Input
+            if (Input.CurrentMouseState.MiddleButton == ButtonState.Pressed && Input.PreviousMouseState.MiddleButton == ButtonState.Pressed)
+            {
+                Vector2 currentPosition = Input.CurrentMousePosition.ToVector2();
+                Vector2 previousPosition = Input.PreviousMousePosition.ToVector2();
+                Vector2 delta = currentPosition - previousPosition;
+                Pan(delta);
+            }
         }
 
         private void HandlePencil()
@@ -203,45 +212,161 @@ namespace FlipBook
                 ColorCell(Input.CurrentMousePosition, Color.White);
         }
 
-        private Boolean drawingLine = false;
-        private Vector2 LineStart = Vector2.Zero;
         private void HandleLine()
         {
             if (!drawingLine)
             {
-                if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
+                if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 {
                     if (this.Bounds.Contains(Input.CurrentMousePosition))
                     {
                         drawingLine = true;
-                        LineStart = MouseDrawPoint(Input.CurrentMousePosition);
+                        start = MouseDrawPoint(Input.CurrentMousePosition);
                     }
                 }
 
             }
             else
             {
-                if (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+                end = MouseDrawPoint(Input.CurrentMousePosition);
+                if (Input.MouseLeftButtonState == MouseButtonState.Released)
                 {
                     if (this.Bounds.Contains(Input.CurrentMousePosition))
                     {
                         drawingLine = false;
-                        createLine(LineStart, MouseDrawPoint(Input.CurrentMousePosition));
+                        createLine(start, MouseDrawPoint(Input.CurrentMousePosition));
                     }
                 }
             }
         }
 
-        private void HandlePan()
+        private void HandleRectangle()
         {
-            if (Input.CurrentMouseState.MiddleButton == ButtonState.Pressed && Input.PreviousMouseState.MiddleButton == ButtonState.Pressed)
+            if (!drawingRectangle)
             {
-                Vector2 currentPosition = Input.CurrentMousePosition.ToVector2();
-                Vector2 previousPosition = Input.PreviousMousePosition.ToVector2();
-                Vector2 delta = currentPosition - previousPosition;
-                Pan(delta);
+                if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
+                {
+                    if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    {
+                        drawingRectangle = true;
+                        start = MouseDrawPoint(Input.CurrentMousePosition);
+                    }
+                }
+
+            }
+            else
+            {
+                if (Input.MouseLeftButtonState == MouseButtonState.Released)
+                {
+                    if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    {
+                        drawingRectangle = false;
+                        createRectangle(start, MouseDrawPoint(Input.CurrentMousePosition));
+                    }
+                }
             }
         }
+        private void HandleFill()
+        {
+            if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
+            {
+                FillGrid(getMouseOverGridCell(Input.CurrentMousePosition));
+            }
+        }
+
+        #endregion Handlers
+
+        #region Handler Helpers
+
+        #region Zoom
+
+        /// <summary>
+        /// Used to set the scale of the grid using the mouse wheel.
+        /// </summary>
+        private void UpdateScale()
+        {
+            if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
+            {
+                Globals.ScaleChanged = true;
+                if (Input.CurrentMouseState.ScrollWheelValue < Input.PreviousMouseState.ScrollWheelValue)
+                    Globals.Scale--;
+                else
+                    Globals.Scale++;
+            }
+            else
+                Globals.ScaleChanged = false;
+        }
+
+        #endregion Zoom
+
+        #region Pencil
+
+        /// <summary>
+        /// Colors the cell at the given point.
+        /// </summary>
+        /// <param name="point">The screen x,y coordinate for the cell to be colored.</param>
+        /// <param name="color">The color to make the cell.</param>
+        public void ColorCell(Point point, Color color)
+        {
+            foreach (GridCell cell in FrameManager.ActiveFrame.Grid.Cells)
+            {
+                if (cell.Bounds.Contains(point))
+                {
+                    cell.Color = color;
+                    break;
+                }
+            }
+        }
+
+        #endregion Pencil
+
+        #region Line
+
+        /// <summary>
+        /// Creates a line of colored cells on the grid.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public void createLine(Vector2 start, Vector2 end)
+        {
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                {
+                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+                    {
+                        FrameManager.ActiveFrame.Grid.Cells[x, y].Color = Globals.DrawingColor;
+                    }
+                }
+            }
+        }
+
+        #endregion Line
+
+
+        #region Rectangle
+
+        private void createRectangle(Vector2 start, Vector2 end)
+        {
+            createLine(start, new Vector2(start.X, end.Y));
+            createLine(new Vector2(start.X, end.Y), end);
+            createLine(end, new Vector2(end.X, start.Y));
+            createLine(new Vector2(end.X, start.Y), start);
+
+            //for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            //{
+            //    for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+            //    {
+            //        if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+            //        {
+            //            FrameManager.ActiveFrame.Grid.Cells[x, y].Color = Globals.DrawingColor;
+            //        }
+            //    }
+            //}
+        }
+
+        #endregion Rectangle
+        #region Pan
 
         private void Pan(Vector2 delta)
         {
@@ -249,6 +374,144 @@ namespace FlipBook
             FrameManager.ActiveFrame.Grid.RebuildGrid();
         }
 
+        #endregion Pan
+
+        #region Filling
+
+        private void FillGrid(GridCell gridCell)
+        {
+            Color changeColor = gridCell.Color;
+
+            GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.GridSize.X, (int)FrameManager.ActiveFrame.Grid.GridSize.Y];
+
+            InitializeGridCheckStructArrayArray(checkStruct);
+
+            checkStruct[(int)gridCell.ID.X, (int)gridCell.ID.Y].Change = true;
+
+            FindFillCells(ref changeColor, ref checkStruct);
+
+            FillCells(checkStruct);
+        }
+
+        private static void FillCells(GridCheckStruct[,] checkStruct)
+        {
+            foreach (GridCheckStruct check in checkStruct)
+            {
+                if (check.Change)
+                {
+                    FrameManager.ActiveFrame.Grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
+                }
+            }
+        }
+
+        private static void FindFillCells(ref Color changeColor, ref GridCheckStruct[,] checkStruct)
+        {
+            Boolean allChecked = false;
+            while (!allChecked)
+            {
+                allChecked = true;
+
+                GridCheckStruct[,] holdStruct = checkStruct;
+
+                foreach (GridCheckStruct index in checkStruct)
+                {
+                    if (index.Change && !index.AllChecked)
+                    {
+                        if ((int)index.ID.X > 0)
+                            if (!index.LeftChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X - 1, (int)index.ID.Y].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X - 1, (int)index.ID.Y].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].LeftChecked = true;
+                            }
+                        if (index.ID.X < FrameManager.ActiveFrame.Grid.GridSize.X - 1)
+                            if (!index.RightChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X + 1, (int)index.ID.Y].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X + 1, (int)index.ID.Y].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].RightChecked = true;
+                            }
+                        if (index.ID.Y > 0)
+                            if (!index.UpChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y - 1].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X, (int)index.ID.Y - 1].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].UpChecked = true;
+                            }
+                        if (index.ID.Y < FrameManager.ActiveFrame.Grid.GridSize.Y - 1)
+                            if (!index.DownChecked)
+                            {
+                                allChecked = false;
+                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y + 1].Color == changeColor)
+                                {
+                                    holdStruct[(int)index.ID.X, (int)index.ID.Y + 1].Change = true;
+                                }
+                                holdStruct[(int)index.ID.X, (int)index.ID.Y].DownChecked = true;
+                            }
+                    }
+                }
+
+                checkStruct = holdStruct;
+            }
+        }
+
+        private void InitializeGridCheckStructArrayArray(GridCheckStruct[,] checkStruct)
+        {
+            for (int x = 0; x < (int)this.grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < (int)this.grid.GridSize.Y; y++)
+                {
+                    checkStruct[x, y].Change = false;
+                    checkStruct[x, y].LeftChecked = false;
+                    checkStruct[x, y].RightChecked = false;
+                    checkStruct[x, y].UpChecked = false;
+                    checkStruct[x, y].DownChecked = false;
+                    checkStruct[x, y].ID = new Vector2(x, y);
+                }
+            }
+        }
+
+        #endregion Filling
+        #endregion Handler Helpers
+
+
+        #region Helper Methods
+        /// <summary>
+        /// Returns the GridCell that the mouse is over.
+        /// </summary>
+        /// <param name="mousePosition"></param>
+        /// <returns></returns>
+        private GridCell getMouseOverGridCell(Point mousePosition)
+        {
+            GridCell gc = new GridCell(new Vector2(0, 0), Color.White, new Vector2(0, 0));
+
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                {
+                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
+                        return FrameManager.ActiveFrame.Grid.Cells[x, y];
+                }
+            }
+
+            return gc;
+        }
+
+
+        /// <summary>
+        /// Returns the Center of the cell that the mouse is over.
+        /// </summary>
+        /// <param name="mousePosition">Position of the mouse.</param>
+        /// <returns></returns>
         public Vector2 MouseDrawPoint(Point mousePosition)
         {
             Vector2 retVal = Vector2.Zero;
@@ -267,66 +530,6 @@ namespace FlipBook
             return retVal;
         }
 
-        public void DrawLine()
-        {
-            if(FrameManager.ActiveFrame.Grid.Bounds.Contains(Input.CurrentMousePosition))
-                lineEnd = MouseDrawPoint(Input.CurrentMousePosition);
-
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
-            {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
-                {
-                    if (Physics.LineIntersectsRect(LineStart.ToPoint(), lineEnd.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
-                    {
-                        Globals.SpriteBatch.Draw(Textures.texture, FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds, Globals.DrawingColor);
-                    }
-                }
-            }
-        }
-
-        private GridCell getMouseOverGridCell(Point mousePosition)
-        {
-            GridCell gc = new GridCell(new Vector2(0, 0), Color.White, new Vector2(0,0));
-
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
-            {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
-                {
-                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
-                        return FrameManager.ActiveFrame.Grid.Cells[x, y];
-                }
-            }
-
-            return gc;
-        }
-
-        Vector2 lineEnd = Vector2.Zero;
-        public void createLine(Vector2 start, Vector2 end)
-        {
-            //lineEnd = MouseDrawPoint();
-
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
-            {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
-                {
-                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
-                    {
-                        FrameManager.ActiveFrame.Grid.Cells[x, y].Color = Globals.DrawingColor;
-                    }
-                }
-            }
-        }
-
-        public void ColorCell(Point point, Color color)
-        {
-            foreach (GridCell cell in FrameManager.ActiveFrame.Grid.Cells)
-            {
-                if (cell.Bounds.Contains(point))
-                {
-                    cell.Color = color;
-                    break;
-                }
-            }
-        }
+        #endregion Helper Methods
     }
 }

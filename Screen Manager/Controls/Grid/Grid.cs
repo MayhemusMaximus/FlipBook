@@ -7,12 +7,7 @@ namespace FlipBook
 {
     public class Grid : BaseScreen
     {
-        //public DrawMode DrawMode { get; set; }
-        //public Boolean CanPan = true;
-        //public Boolean CanZoom = true;
         public Boolean ShowGridLines = true;
-
-        //public Color DrawColor { get; set; }
 
         private Vector2 gridSize;
         public Vector2 GridSize
@@ -25,8 +20,6 @@ namespace FlipBook
             }
         }
         public GridCell[,] Cells;
-
-        //private Texture2D texture = new Texture2D(Globals.GraphicsDevice, 1, 1);
 
         private void BuildTexture()
         {
@@ -44,16 +37,13 @@ namespace FlipBook
 
         public Texture2D CellBorder = new Texture2D(Globals.GraphicsDevice, 10, 10);
 
-        //public Grid(Vector2 position, Vector2 size, Vector2 pixels)
         public Grid(Vector2 position, Vector2 size)
         {
             BuildTexture();
             Position = position;
             this.Size = new Vector2(size.X * Globals.Scale, size.Y * Globals.Scale);
             GridSize = size;
-            //GridSize = pixels;
             makeBox();
-            //DrawColor = Color.Orange;
         }
 
         public void makeBox()
@@ -103,7 +93,6 @@ namespace FlipBook
                     Cells[x, y].Bounds = new Rectangle((int)Position.X + (x * Globals.Scale), (int)Position.Y + (y * Globals.Scale), Globals.Scale, Globals.Scale);
                 }
             }
-            //this.Size = new Vector2(GridSize.X * Globals.Scale, GridSize.Y * Globals.Scale);
         }
 
 
@@ -127,7 +116,7 @@ namespace FlipBook
 
         public override void Draw()
         {
-
+            
             for (int x = 0; x < GridSize.X; x++)
             {
                 for (int y = 0; y < GridSize.Y; y++)

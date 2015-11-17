@@ -15,8 +15,7 @@ namespace FlipBook
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Texture2D a;
-        RenderTarget2D target;
+        //RenderTarget2D target;
 
         Texture2D Pixel;
 
@@ -35,9 +34,14 @@ namespace FlipBook
             this.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
+        /// <summary>
+        /// Windows API Event Handler to catch the Wondow_ClientSizeChanged Event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            //TODO: make changes to handle the new window size.
+            //TODO: Make changes to handle the new window size.
         }
 
         /// <summary>
@@ -53,7 +57,7 @@ namespace FlipBook
             //a = new Texture2D(GraphicsDevice, 10, 10);
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             
-            target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
+            //target = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, GraphicsDevice.DisplayMode.Format, DepthFormat.None);
 
             base.Initialize();
         }
@@ -67,8 +71,6 @@ namespace FlipBook
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Globals.SpriteBatch = spriteBatch;
-            // TODO: Explore changepixels(Color color) Call Here
-            //changepixels(Color.Red);
 
             SpriteFonts.Arial_8 = Content.Load<SpriteFont>("Arial_8");
             Pixel = Content.Load<Texture2D>("Frames/Pixel");
@@ -96,48 +98,6 @@ namespace FlipBook
 
             ScreenManager.AddScreen(new WorkSpaceScreen("Work Space", new Vector2(0, 0), new Vector2(500, 300)));
         }
-
-        //public void drawPixels(Vector2 location)
-        //{
-        //    Color[] colors = new Color[a.Width * a.Height];
-        //    a.GetData(colors);
-
-        //    int ndx = 0;
-
-        //    for(int y = 0; y < a.Width; y++)
-        //    {
-        //        for(int x = 0; x < a.Height; x++)
-        //        {
-        //            Rectangle destination = new Rectangle((int)location.X + (x * 10), (int)location.Y + (y * 10), 10, 10);
-                    
-        //            spriteBatch.Draw(Pixel,destination, colors[ndx]);
-        //            ndx++;
-        //        }
-        //    }
-
-        //}
-
-        // TODO: Explore changepixels(Color color)
-        //public void changepixels(Color color)
-        //{
-        //    //GraphicsDevice.SetRenderTarget(target);
-
-        //    GraphicsDevice.Textures[0] = null;
-
-        //    Color[] data = new Color[a.Width * a.Height];
-        //    a.GetData(data);
-
-        //    int ndx = 4 * a.Width + 3;
-
-        //    for (int x = 0; x < a.Width * a.Height; x = x + 5 )
-        //    {
-        //        data[x] = color;
-        //    }
-
-        //    a.SetData(data);
-
-        //    GraphicsDevice.Textures[0] = a;
-        //}
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

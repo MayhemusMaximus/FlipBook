@@ -78,7 +78,8 @@ namespace FlipBook
             if (Clicked == true)
                 Clicked = false;
 
-            if (Input.CurrentMouseState.LeftButton == ButtonState.Released && Input.PreviousMouseState.LeftButton == ButtonState.Pressed)
+            //if (Input.CurrentMouseState.LeftButton == ButtonState.Released && Input.PreviousMouseState.LeftButton == ButtonState.Pressed)
+            if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 Clicked = true;
         }
 
