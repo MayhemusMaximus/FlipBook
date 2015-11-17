@@ -20,11 +20,23 @@ namespace FlipBook
 
         public override void Update()
         {
+            if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
+            {
+                Globals.ScaleChanged = true;
+                if (Input.CurrentMouseState.ScrollWheelValue < Input.PreviousMouseState.ScrollWheelValue)
+                    Globals.Scale--;
+                else
+                    Globals.Scale++;
+            }
+            else
+                Globals.ScaleChanged = false;
+
             if (Globals.ScaleChanged)
                 HandleZoom();
 
             switch (Globals.DrawMode)
             {
+                    // TODO: Handle Rectangle Draw Mode
                 case DrawMode.Pencil:
                     HandlePencil();
                     break;
@@ -68,7 +80,6 @@ namespace FlipBook
         {
             Color changeColor = gridCell.Color;
 
-            //GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)this.grid.GridSize.X, (int)this.grid.GridSize.Y];
             GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.GridSize.X, (int)FrameManager.ActiveFrame.Grid.GridSize.Y];
 
             for(int x = 0; x < (int)this.grid.GridSize.X; x++)
@@ -171,12 +182,10 @@ namespace FlipBook
 
         private void HandlePencil()
         {
-            //if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
             if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
             else if (Input.MouseLeftButtonState == MouseButtonState.Held)
             {
-                // TODO: Create line when movement is more than a Grid "Pixel".
                 GridCell gc1 = getMouseOverGridCell(Input.PreviousMousePosition);
                 GridCell gc2 = getMouseOverGridCell(Input.CurrentMousePosition);
                 Vector2 gc1ID = gc1.ID;
@@ -186,8 +195,6 @@ namespace FlipBook
                 else
                     ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
             }
-            //if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
-                //ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
         }
 
         private void HandleEraser()

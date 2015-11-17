@@ -10,3 +10,4 @@ Content\NewFrame.xnb
 Content\DeleteFrame.xnb
 Content\PaintCan.xnb
 Content\Arial_8.xnb
+Content\Rectangle.xnb

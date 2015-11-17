@@ -85,6 +85,7 @@ namespace FlipBook
             Textures.AddFrame = this.Content.Load<Texture2D>("NewFrame");
             Textures.DeleteFrame = this.Content.Load<Texture2D>("DeleteFrame");
             Textures.PaintCan = this.Content.Load<Texture2D>("PaintCan");
+            Textures.Rectangle = this.Content.Load<Texture2D>("Rectangle");
 
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
@@ -164,21 +165,7 @@ namespace FlipBook
 
             Input.CurrentMouseState = Mouse.GetState();
 
-            //TODO: Move Zooming to PaintScreen
             //TODO: Grid should fit within PaintScreen on Open
-
-            if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
-            {
-                Globals.ScaleChanged = true;
-                if (Input.CurrentMouseState.ScrollWheelValue < Input.PreviousMouseState.ScrollWheelValue)
-                    Globals.Scale--;
-                else
-                    Globals.Scale++;
-            }
-            else
-                Globals.ScaleChanged = false;
-
-            //if(currentMouseState.ScrollWheelValue)
 
             if(Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
             {

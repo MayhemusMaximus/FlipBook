@@ -109,6 +109,15 @@
       <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Arial_8.xnb</Output>
       <Time>2015-11-03T14:31:16.7673169-06:00</Time>
     </Item>
+    <Item>
+      <Source>Rectangle.png</Source>
+      <Name>Rectangle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\rmatton\Desktop\Research\XNA\C Sharp\FlipBook\FlipBook\FlipBook\bin\x86\Debug\Content\Rectangle.xnb</Output>
+      <Time>2015-11-17T10:35:33.926431-06:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{910E346D-2186-4165-AEB8-6C80DDA90443}</ContentProjectGUID>

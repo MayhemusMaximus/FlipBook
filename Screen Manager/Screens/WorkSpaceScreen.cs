@@ -44,7 +44,12 @@ namespace FlipBook
             btnFill.IsSelected = false;
             btnFill.Name = "Fill";
 
-            Button btnShowGrid = new Button(new Vector2(btnFill.Bounds.X + btnFill.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            Button btnRectangle = new Button(new Vector2(btnFill.Bounds.X + btnFill.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
+            btnRectangle.Image = Textures.Rectangle;
+            btnRectangle.IsSelected = false;
+            btnRectangle.Name = "Rectangle";
+
+            Button btnShowGrid = new Button(new Vector2(btnRectangle.Bounds.X + btnRectangle.Bounds.Width + 5, this.Bounds.Y + 5), new Vector2(20, 20));
             btnShowGrid.Image = Textures.Grid;
             btnShowGrid.IsSelected = true;
             btnShowGrid.Name = "ShowGrid";
@@ -53,6 +58,7 @@ namespace FlipBook
             toolbar.Buttons.Add(btnEraser);
             toolbar.Buttons.Add(btnLine);
             toolbar.Buttons.Add(btnFill);
+            toolbar.Buttons.Add(btnRectangle);
             toolbar.Buttons.Add(btnShowGrid);
 
             //if(((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected)
@@ -77,6 +83,7 @@ namespace FlipBook
                 toolbar.Select("Eraser", false);
                 toolbar.Select("Fill", false);
                 toolbar.Select("Line", false);
+                toolbar.Select("Rectangle", false);
             }
             if (((Button)"Eraser".ToButton(toolbar.Buttons)).Clicked)
             {
@@ -86,6 +93,7 @@ namespace FlipBook
                 toolbar.Select("Pencil", false);
                 toolbar.Select("Fill", false);
                 toolbar.Select("Line", false);
+                toolbar.Select("Rectangle", false);
             }
             if (((Button)"Fill".ToButton(toolbar.Buttons)).Clicked)
             {
@@ -95,6 +103,7 @@ namespace FlipBook
                 toolbar.Select("Line", false);
                 toolbar.Select("Pencil", false);
                 toolbar.Select("Eraser", false);
+                toolbar.Select("Rectangle", false);
 
             }
             if (((Button)"Line".ToButton(toolbar.Buttons)).Clicked)
@@ -102,6 +111,18 @@ namespace FlipBook
                 Globals.DrawMode = DrawMode.Line;
 
                 toolbar.Select("Line", true);
+                toolbar.Select("Pencil", false);
+                toolbar.Select("Fill", false);
+                toolbar.Select("Eraser", false);
+                toolbar.Select("Rectangle", false);
+
+            }
+            if (((Button)"Rectangle".ToButton(toolbar.Buttons)).Clicked)
+            {
+                Globals.DrawMode = DrawMode.Rectangle;
+
+                toolbar.Select("Rectangle", true);
+                toolbar.Select("Line", false);
                 toolbar.Select("Pencil", false);
                 toolbar.Select("Fill", false);
                 toolbar.Select("Eraser", false);
@@ -114,7 +135,8 @@ namespace FlipBook
                 Globals.ShowGrid = ((Button)"ShowGrid".ToButton(toolbar.Buttons)).IsSelected;
             }
 
-            paintScreen.Update();
+            if(paintScreen.Bounds.Contains(Input.CurrentMousePosition))
+                paintScreen.Update();
 
             swatch.Update();
 
