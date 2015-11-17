@@ -164,6 +164,9 @@ namespace FlipBook
 
             Input.CurrentMouseState = Mouse.GetState();
 
+            //TODO: Move Zooming to PaintScreen
+            //TODO: Grid should fit within PaintScreen on Open
+
             if (Input.CurrentMouseState.ScrollWheelValue != Input.PreviousMouseState.ScrollWheelValue)
             {
                 Globals.ScaleChanged = true;
@@ -176,6 +179,22 @@ namespace FlipBook
                 Globals.ScaleChanged = false;
 
             //if(currentMouseState.ScrollWheelValue)
+
+            if(Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (Input.PreviousMouseState.LeftButton == ButtonState.Released)
+                    Input.MouseLeftButtonState = MouseButtonState.Pressed;
+                else
+                    Input.MouseLeftButtonState = MouseButtonState.Held;
+            }
+            else
+            {
+                if (Input.PreviousMouseState.LeftButton == ButtonState.Released)
+                    Input.MouseLeftButtonState = MouseButtonState.Inactive;
+                else
+                    Input.MouseLeftButtonState = MouseButtonState.Released;
+            }
+
 
             ScreenManager.Update();
             FrameManager.Update();

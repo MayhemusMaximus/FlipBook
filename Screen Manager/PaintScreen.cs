@@ -49,7 +49,7 @@ namespace FlipBook
         {
             if(Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
             {
-                FillGrid(getGridCellMouseIsOver());
+                FillGrid(getMouseOverGridCell(Input.CurrentMousePosition));
             }
         }
 
@@ -171,8 +171,23 @@ namespace FlipBook
 
         private void HandlePencil()
         {
-            if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+            //if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed && Input.PreviousMouseState.LeftButton == ButtonState.Released)
+            if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
+            else if (Input.MouseLeftButtonState == MouseButtonState.Held)
+            {
+                // TODO: Create line when movement is more than a Grid "Pixel".
+                GridCell gc1 = getMouseOverGridCell(Input.PreviousMousePosition);
+                GridCell gc2 = getMouseOverGridCell(Input.CurrentMousePosition);
+                Vector2 gc1ID = gc1.ID;
+                Vector2 gc2ID = gc2.ID;
+                if ((gc2ID - gc1ID).Length() > 1)
+                    createLine(MouseDrawPoint(Input.PreviousMousePosition), MouseDrawPoint(Input.CurrentMousePosition));
+                else
+                    ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
+            }
+            //if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+                //ColorCell(Input.CurrentMousePosition, Globals.DrawingColor);
         }
 
         private void HandleEraser()
@@ -192,7 +207,7 @@ namespace FlipBook
                     if (this.Bounds.Contains(Input.CurrentMousePosition))
                     {
                         drawingLine = true;
-                        LineStart = MouseDrawPoint();
+                        LineStart = MouseDrawPoint(Input.CurrentMousePosition);
                     }
                 }
 
@@ -204,7 +219,7 @@ namespace FlipBook
                     if (this.Bounds.Contains(Input.CurrentMousePosition))
                     {
                         drawingLine = false;
-                        createLine();
+                        createLine(LineStart, MouseDrawPoint(Input.CurrentMousePosition));
                     }
                 }
             }
@@ -227,7 +242,7 @@ namespace FlipBook
             FrameManager.ActiveFrame.Grid.RebuildGrid();
         }
 
-        public Vector2 MouseDrawPoint()
+        public Vector2 MouseDrawPoint(Point mousePosition)
         {
             Vector2 retVal = Vector2.Zero;
 
@@ -235,7 +250,7 @@ namespace FlipBook
             {
                 for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
                 {
-                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(Input.CurrentMousePosition))
+                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
                     {
                         return FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Center.ToVector2();
                     }
@@ -248,7 +263,7 @@ namespace FlipBook
         public void DrawLine()
         {
             if(FrameManager.ActiveFrame.Grid.Bounds.Contains(Input.CurrentMousePosition))
-                lineEnd = MouseDrawPoint();
+                lineEnd = MouseDrawPoint(Input.CurrentMousePosition);
 
             for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
             {
@@ -262,7 +277,7 @@ namespace FlipBook
             }
         }
 
-        private GridCell getGridCellMouseIsOver()
+        private GridCell getMouseOverGridCell(Point mousePosition)
         {
             GridCell gc = new GridCell(new Vector2(0, 0), Color.White, new Vector2(0,0));
 
@@ -270,7 +285,7 @@ namespace FlipBook
             {
                 for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
                 {
-                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(Input.PreviousMousePosition))
+                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
                         return FrameManager.ActiveFrame.Grid.Cells[x, y];
                 }
             }
@@ -279,15 +294,15 @@ namespace FlipBook
         }
 
         Vector2 lineEnd = Vector2.Zero;
-        public void createLine()
+        public void createLine(Vector2 start, Vector2 end)
         {
-            lineEnd = MouseDrawPoint();
+            //lineEnd = MouseDrawPoint();
 
             for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
             {
                 for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
                 {
-                    if (Physics.LineIntersectsRect(LineStart.ToPoint(), lineEnd.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
                     {
                         FrameManager.ActiveFrame.Grid.Cells[x, y].Color = Globals.DrawingColor;
                     }
