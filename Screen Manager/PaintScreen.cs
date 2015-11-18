@@ -173,7 +173,7 @@ namespace FlipBook
         private void DrawCircle()
         {
 
-            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y).Center.ToVector2();
+            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)Input.CurrentMousePosition.X, (int)Input.CurrentMousePosition.Y).Center.ToVector2();
             int a = Math.Abs((int)(start.X - end.X));
             int b = Math.Abs((int)(start.Y - end.Y));
 
@@ -185,6 +185,7 @@ namespace FlipBook
             //double step = MathHelper.TwoPi / 24;
 
             double step = .261799387799; // 15 degrees
+
             double twoPi = 6.2831853071; // 360 degrees
 
             while (theta < twoPi)
