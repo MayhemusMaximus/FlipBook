@@ -19,6 +19,7 @@ namespace FlipBook
         Eraser,
         Line,
         Fill,
-        Rectangle
+        Rectangle,
+        Circle
     }
 }

@@ -19,6 +19,7 @@ namespace FlipBook
         public static Texture2D DeleteFrame;
         public static Texture2D PaintCan;
         public static Texture2D Rectangle;
+        public static Texture2D Circle;
 
         public static Texture2D SimpleTexture;
 

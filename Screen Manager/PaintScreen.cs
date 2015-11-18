@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace FlipBook
 {
@@ -21,6 +22,7 @@ namespace FlipBook
 
         private Boolean drawingLine = false;
         private Boolean drawingRectangle = false;
+        private Boolean drawingCircle = false;
         private Vector2 start = Vector2.Zero;
         private Vector2 end = Vector2.Zero;
 
@@ -99,7 +101,6 @@ namespace FlipBook
 
             switch (Globals.DrawMode)
             {
-                // TODO: Handle Rectangle Draw Mode
                 case DrawMode.Pencil:
                     HandlePencil();
                     break;
@@ -114,6 +115,9 @@ namespace FlipBook
                     break;
                 case DrawMode.Rectangle:
                     HandleRectangle();
+                    break;
+                case DrawMode.Circle:
+                    HandleCircle();
                     break;
             }
 
@@ -131,26 +135,17 @@ namespace FlipBook
 
             if (drawingRectangle)
                 DrawRectangle();
+
+            if (drawingCircle)
+                DrawCircle();
         }
-
-        private void DrawRectangle()
-        {
-            end = MouseDrawPoint(Input.CurrentMousePosition);
-
-            drawLine(start, new Vector2(start.X, end.Y));
-            drawLine(new Vector2(start.X, end.Y), end);
-            drawLine(end, new Vector2(end.X, start.Y));
-            drawLine(new Vector2(end.X, start.Y), start);
-
-        }
-
         /// <summary>
         /// This will draw a non-static line, so it can be moved by mouse position.
         /// </summary>
         private void drawLine(Vector2 start, Vector2 end)
         {
             //if (FrameManager.ActiveFrame.Grid.Bounds.Contains(Input.CurrentMousePosition))
-                //end = MouseDrawPoint(Input.CurrentMousePosition);
+            //end = MouseDrawPoint(Input.CurrentMousePosition);
 
             for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
             {
@@ -164,8 +159,49 @@ namespace FlipBook
             }
         }
 
+        private void DrawRectangle()
+        {
+            end = MouseDrawPoint(Input.CurrentMousePosition);
 
+            drawLine(start, new Vector2(start.X, end.Y));
+            drawLine(new Vector2(start.X, end.Y), end);
+            drawLine(end, new Vector2(end.X, start.Y));
+            drawLine(new Vector2(end.X, start.Y), start);
 
+        }
+
+        private void DrawCircle()
+        {
+
+            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y).Center.ToVector2();
+            int a = Math.Abs((int)(start.X - end.X));
+            int b = Math.Abs((int)(start.Y - end.Y));
+
+            circlePoints.Clear();
+
+            double theta = 0;
+            int h = (int)center.X;
+            int k = (int)center.Y;
+            //double step = MathHelper.TwoPi / 24;
+
+            double step = .261799387799; // 15 degrees
+            double twoPi = 6.2831853071; // 360 degrees
+
+            while (theta < twoPi)
+            {
+                int x = (int)(h + (a * Math.Cos(theta)));
+                int y = (int)(k + (b * Math.Sin(theta)));
+                circlePoints.Add(new Vector2(x, y));
+
+                theta += step;
+            }
+
+            for (int i = 0; i < circlePoints.Count - 1; i++)
+            {
+                drawLine(circlePoints[i], circlePoints[i + 1]);
+            }
+            drawLine(circlePoints[circlePoints.Count - 1], circlePoints[0]);
+        }
         #endregion XNA Loop Methods
 
         #region Handlers
@@ -262,6 +298,34 @@ namespace FlipBook
                     {
                         drawingRectangle = false;
                         createRectangle(start, MouseDrawPoint(Input.CurrentMousePosition));
+                    }
+                }
+            }
+        }
+
+        private void HandleCircle()
+        {
+
+            if (!drawingCircle)
+            {
+                if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
+                {
+                    if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    {
+                        drawingCircle = true;
+                        start = MouseDrawPoint(Input.CurrentMousePosition);
+                    }
+                }
+
+            }
+            else
+            {
+                if (Input.MouseLeftButtonState == MouseButtonState.Released)
+                {
+                    if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    {
+                        drawingCircle = false;
+                        createCircle(start, MouseDrawPoint(Input.CurrentMousePosition));
                     }
                 }
             }
@@ -364,6 +428,45 @@ namespace FlipBook
             //    }
             //}
         }
+
+        private void createCircle(Vector2 start, Vector2 end)
+        {
+            // TODO: Handle Circle
+            // 1. Find center of Circle
+            // x,y are coordinates of any point on the ellipse,
+            // a,b are the radius on the x and y axes respectively,
+            // t is the parameter, which ranges from 0 to 2pi radians
+
+            // x = a cos t
+            // y = b sin t
+
+            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y).Center.ToVector2();
+            int a = Math.Abs((int)(start.X - end.X));
+            int b = Math.Abs((int)(start.Y - end.Y));
+
+            circlePoints.Clear();
+
+            double theta = 0;
+            int h = (int)center.X;
+            int k = (int)center.Y;
+            double step = 15 * Math.PI/180;
+
+            while(theta < MathHelper.TwoPi)
+            {
+                int x = (int)(h + (a * Math.Cos(theta)));
+                int y = (int)(k + (b * Math.Sin(theta)));
+                circlePoints.Add(new Vector2(x, y));
+                theta += step;
+            }
+
+            for(int i = 0; i < circlePoints.Count - 1; i++)
+            {
+                createLine(circlePoints[i], circlePoints[i + 1]);
+            }
+            createLine(circlePoints[circlePoints.Count - 1], circlePoints[0]);
+        }
+
+        List<Vector2> circlePoints = new List<Vector2>();
 
         #endregion Rectangle
         #region Pan

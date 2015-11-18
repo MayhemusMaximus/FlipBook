@@ -88,6 +88,7 @@ namespace FlipBook
             Textures.DeleteFrame = this.Content.Load<Texture2D>("DeleteFrame");
             Textures.PaintCan = this.Content.Load<Texture2D>("PaintCan");
             Textures.Rectangle = this.Content.Load<Texture2D>("Rectangle");
+            Textures.Circle = this.Content.Load<Texture2D>("Circle");
 
             FrameManager.addNewFrame();
             FrameManager.addNewFrame();
