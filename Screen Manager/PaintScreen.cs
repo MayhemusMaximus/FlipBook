@@ -172,17 +172,17 @@ namespace FlipBook
 
         private void DrawCircle()
         {
+            Vector2 drawEnd = MouseDrawPoint(Input.CurrentMousePosition);
+            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)drawEnd.X - (int)start.X, (int)drawEnd.Y - (int)start.Y).Center.ToVector2();
 
-            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)Input.CurrentMousePosition.X, (int)Input.CurrentMousePosition.Y).Center.ToVector2();
-            int a = Math.Abs((int)(start.X - end.X));
-            int b = Math.Abs((int)(start.Y - end.Y));
+            int a = Math.Abs((int)(start.X - drawEnd.X)/2);
+            int b = Math.Abs((int)(start.Y - drawEnd.Y)/2);
 
             circlePoints.Clear();
 
             double theta = 0;
             int h = (int)center.X;
             int k = (int)center.Y;
-            //double step = MathHelper.TwoPi / 24;
 
             double step = .261799387799; // 15 degrees
 
@@ -255,11 +255,11 @@ namespace FlipBook
             {
                 if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
+                    //if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    //{
                         drawingLine = true;
                         start = MouseDrawPoint(Input.CurrentMousePosition);
-                    }
+                    //}
                 }
 
             }
@@ -268,11 +268,11 @@ namespace FlipBook
                 end = MouseDrawPoint(Input.CurrentMousePosition);
                 if (Input.MouseLeftButtonState == MouseButtonState.Released)
                 {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
+                    //if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    //{
                         drawingLine = false;
                         createLine(start, MouseDrawPoint(Input.CurrentMousePosition));
-                    }
+                    //}
                 }
             }
         }
@@ -311,11 +311,11 @@ namespace FlipBook
             {
                 if (Input.MouseLeftButtonState == MouseButtonState.Pressed)
                 {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
+                    //if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    //{
                         drawingCircle = true;
                         start = MouseDrawPoint(Input.CurrentMousePosition);
-                    }
+                    //}
                 }
 
             }
@@ -323,11 +323,11 @@ namespace FlipBook
             {
                 if (Input.MouseLeftButtonState == MouseButtonState.Released)
                 {
-                    if (this.Bounds.Contains(Input.CurrentMousePosition))
-                    {
+                    //if (this.Bounds.Contains(Input.CurrentMousePosition))
+                    //{
                         drawingCircle = false;
                         createCircle(start, MouseDrawPoint(Input.CurrentMousePosition));
-                    }
+                    //}
                 }
             }
         }
@@ -390,8 +390,8 @@ namespace FlipBook
         /// <summary>
         /// Creates a line of colored cells on the grid.
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">The window based location of the beginning of the line.</param>
+        /// <param name="end">The window based location of the end of the line.</param>
         public void createLine(Vector2 start, Vector2 end)
         {
             for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
@@ -440,10 +440,10 @@ namespace FlipBook
 
             // x = a cos t
             // y = b sin t
-
-            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y).Center.ToVector2();
-            int a = Math.Abs((int)(start.X - end.X));
-            int b = Math.Abs((int)(start.Y - end.Y));
+            //Vector2 drawEnd = 
+            Vector2 center = new Rectangle((int)start.X, (int)start.Y, (int)end.X - (int)start.X, (int)end.Y - (int)start.Y).Center.ToVector2();
+            int a = Math.Abs((int)(start.X - end.X) / 2);
+            int b = Math.Abs((int)(start.Y - end.Y) / 2);
 
             circlePoints.Clear();
 
