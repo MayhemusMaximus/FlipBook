@@ -29,7 +29,7 @@ namespace FlipBook
 
         public override void Draw()
         {
-            Globals.SpriteBatch.Draw(FrameManager.Frames[frameNDX].Grid.ToTexture2D(), this.Bounds, Color.White);
+            Globals.SpriteBatch.Draw(FrameManager.Frames[frameNDX].Grid.Peek().ToTexture2D(), this.Bounds, Color.White);
         }
     }
 }

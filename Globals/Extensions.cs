@@ -50,5 +50,21 @@ namespace FlipBook
 
             return retVal;
         }
+
+        public static Grid Clone(this Grid grid)
+        {
+            Grid clone = new Grid(new Vector2(0, 0), Globals.ImageSize);
+
+            for (int x = 0; x < grid.GridSize.X; x++)
+            {
+                for (int y = 0; y < grid.GridSize.Y; y++)
+                {
+                    clone.Cells[x, y].Color = grid.Cells[x, y].Color;
+                }
+            }
+
+            return clone;
+
+        }
     }
 }

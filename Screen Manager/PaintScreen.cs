@@ -85,7 +85,7 @@ namespace FlipBook
             this.Position = position;
             this.Size = size;
 
-            FrameManager.ActiveFrame.Grid.ShowGridLines = Globals.ShowGrid;
+            FrameManager.ActiveFrame.Grid.Peek().ShowGridLines = Globals.ShowGrid;
         }
 
         #endregion Constructor
@@ -94,6 +94,8 @@ namespace FlipBook
 
         public override void Update()
         {
+            HandleUndo();
+
             UpdateScale();
 
             if (Globals.ScaleChanged)
@@ -124,11 +126,20 @@ namespace FlipBook
             
             HandlePan();
 
-            FrameManager.ActiveFrame.Grid.ShowGridLines = Globals.ShowGrid;
+            FrameManager.ActiveFrame.Grid.Peek().ShowGridLines = Globals.ShowGrid;
+        }
+
+        private static void HandleUndo()
+        {
+            if (FrameManager.ActiveFrame.Grid.Count > 1)
+            {
+                if (Input.CurrentKeyboardState.IsKeyDown(Keys.F2) && !Input.PreviousKeyboardState.IsKeyDown(Keys.F2))
+                    FrameManager.ActiveFrame.Grid.Pop();
+            }
         }
         public override void Draw()
         {
-            FrameManager.ActiveFrame.Grid.Draw();
+            FrameManager.ActiveFrame.Grid.Peek().Draw();
 
             if (drawingLine)
                 drawLine(start, end);
@@ -147,13 +158,13 @@ namespace FlipBook
             //if (FrameManager.ActiveFrame.Grid.Bounds.Contains(Input.CurrentMousePosition))
             //end = MouseDrawPoint(Input.CurrentMousePosition);
 
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.Peek().GridSize.X; x++)
             {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y; y++)
                 {
-                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds))
                     {
-                        Globals.SpriteBatch.Draw(Textures.texture, FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds, Globals.DrawingColor);
+                        Globals.SpriteBatch.Draw(Textures.texture, FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds, Globals.DrawingColor);
                     }
                 }
             }
@@ -209,9 +220,9 @@ namespace FlipBook
 
         private void HandleZoom()
         {
-            FrameManager.ActiveFrame.Grid.CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
-            FrameManager.ActiveFrame.Grid.makeBox();
-            FrameManager.ActiveFrame.Grid.RebuildGrid();
+            FrameManager.ActiveFrame.Grid.Peek().CellBorder = new Texture2D(Globals.GraphicsDevice, Globals.Scale, Globals.Scale);
+            FrameManager.ActiveFrame.Grid.Peek().makeBox();
+            FrameManager.ActiveFrame.Grid.Peek().RebuildGrid();
         }
 
         private void HandlePan()
@@ -373,7 +384,7 @@ namespace FlipBook
         /// <param name="color">The color to make the cell.</param>
         public void ColorCell(Point point, Color color)
         {
-            foreach (GridCell cell in FrameManager.ActiveFrame.Grid.Cells)
+            foreach (GridCell cell in FrameManager.ActiveFrame.Grid.Peek().Cells)
             {
                 if (cell.Bounds.Contains(point))
                 {
@@ -394,16 +405,32 @@ namespace FlipBook
         /// <param name="end">The window based location of the end of the line.</param>
         public void createLine(Vector2 start, Vector2 end)
         {
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            //Grid grid = new Grid(new Vector2(0, 0), Globals.ImageSize);
+
+            Grid grid = FrameManager.ActiveFrame.Grid.Peek().Clone();
+
+            //for (int x = 0; x < FrameManager.ActiveFrame.Grid.Peek().GridSize.X; x++)
+            //{
+            //    for (int y = 0; y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y; y++)
+            //    {
+            //            //FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Color = Globals.DrawingColor;
+            //            grid.Cells[x, y].Color = FrameManager.ActiveFrame.Grid.Peek().Cells[x,y].Color;
+            //    }
+            //}
+
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.Peek().GridSize.X; x++)
             {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y; y++)
                 {
-                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds))
+                    if (Physics.LineIntersectsRect(start.ToPoint(), end.ToPoint(), FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds))
                     {
-                        FrameManager.ActiveFrame.Grid.Cells[x, y].Color = Globals.DrawingColor;
+                        //FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Color = Globals.DrawingColor;
+                        grid.Cells[x, y].Color = Globals.DrawingColor;
                     }
                 }
             }
+
+            FrameManager.ActiveFrame.Grid.Push(grid);
         }
 
         #endregion Line
@@ -474,8 +501,8 @@ namespace FlipBook
 
         private void Pan(Vector2 delta)
         {
-            FrameManager.ActiveFrame.Grid.Position = FrameManager.ActiveFrame.Grid.Position + delta;
-            FrameManager.ActiveFrame.Grid.RebuildGrid();
+            FrameManager.ActiveFrame.Grid.Peek().Position = FrameManager.ActiveFrame.Grid.Peek().Position + delta;
+            FrameManager.ActiveFrame.Grid.Peek().RebuildGrid();
         }
 
         #endregion Pan
@@ -486,7 +513,7 @@ namespace FlipBook
         {
             Color changeColor = gridCell.Color;
 
-            GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.GridSize.X, (int)FrameManager.ActiveFrame.Grid.GridSize.Y];
+            GridCheckStruct[,] checkStruct = new GridCheckStruct[(int)FrameManager.ActiveFrame.Grid.Peek().GridSize.X, (int)FrameManager.ActiveFrame.Grid.Peek().GridSize.Y];
 
             InitializeGridCheckStructArrayArray(checkStruct);
 
@@ -503,7 +530,7 @@ namespace FlipBook
             {
                 if (check.Change)
                 {
-                    FrameManager.ActiveFrame.Grid.Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
+                    FrameManager.ActiveFrame.Grid.Peek().Cells[(int)check.ID.X, (int)check.ID.Y].Color = Globals.DrawingColor;
                 }
             }
         }
@@ -525,17 +552,17 @@ namespace FlipBook
                             if (!index.LeftChecked)
                             {
                                 allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X - 1, (int)index.ID.Y].Color == changeColor)
+                                if (FrameManager.ActiveFrame.Grid.Peek().Cells[(int)index.ID.X - 1, (int)index.ID.Y].Color == changeColor)
                                 {
                                     holdStruct[(int)index.ID.X - 1, (int)index.ID.Y].Change = true;
                                 }
                                 holdStruct[(int)index.ID.X, (int)index.ID.Y].LeftChecked = true;
                             }
-                        if (index.ID.X < FrameManager.ActiveFrame.Grid.GridSize.X - 1)
+                        if (index.ID.X < FrameManager.ActiveFrame.Grid.Peek().GridSize.X - 1)
                             if (!index.RightChecked)
                             {
                                 allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X + 1, (int)index.ID.Y].Color == changeColor)
+                                if (FrameManager.ActiveFrame.Grid.Peek().Cells[(int)index.ID.X + 1, (int)index.ID.Y].Color == changeColor)
                                 {
                                     holdStruct[(int)index.ID.X + 1, (int)index.ID.Y].Change = true;
                                 }
@@ -545,17 +572,17 @@ namespace FlipBook
                             if (!index.UpChecked)
                             {
                                 allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y - 1].Color == changeColor)
+                                if (FrameManager.ActiveFrame.Grid.Peek().Cells[(int)index.ID.X, (int)index.ID.Y - 1].Color == changeColor)
                                 {
                                     holdStruct[(int)index.ID.X, (int)index.ID.Y - 1].Change = true;
                                 }
                                 holdStruct[(int)index.ID.X, (int)index.ID.Y].UpChecked = true;
                             }
-                        if (index.ID.Y < FrameManager.ActiveFrame.Grid.GridSize.Y - 1)
+                        if (index.ID.Y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y - 1)
                             if (!index.DownChecked)
                             {
                                 allChecked = false;
-                                if (FrameManager.ActiveFrame.Grid.Cells[(int)index.ID.X, (int)index.ID.Y + 1].Color == changeColor)
+                                if (FrameManager.ActiveFrame.Grid.Peek().Cells[(int)index.ID.X, (int)index.ID.Y + 1].Color == changeColor)
                                 {
                                     holdStruct[(int)index.ID.X, (int)index.ID.Y + 1].Change = true;
                                 }
@@ -598,12 +625,12 @@ namespace FlipBook
         {
             GridCell gc = new GridCell(new Vector2(0, 0), Color.White, new Vector2(0, 0));
 
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.Peek().GridSize.X; x++)
             {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y; y++)
                 {
-                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
-                        return FrameManager.ActiveFrame.Grid.Cells[x, y];
+                    if (FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds.Contains(mousePosition))
+                        return FrameManager.ActiveFrame.Grid.Peek().Cells[x, y];
                 }
             }
 
@@ -620,13 +647,13 @@ namespace FlipBook
         {
             Vector2 retVal = Vector2.Zero;
 
-            for (int x = 0; x < FrameManager.ActiveFrame.Grid.GridSize.X; x++)
+            for (int x = 0; x < FrameManager.ActiveFrame.Grid.Peek().GridSize.X; x++)
             {
-                for (int y = 0; y < FrameManager.ActiveFrame.Grid.GridSize.Y; y++)
+                for (int y = 0; y < FrameManager.ActiveFrame.Grid.Peek().GridSize.Y; y++)
                 {
-                    if (FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Contains(mousePosition))
+                    if (FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds.Contains(mousePosition))
                     {
-                        return FrameManager.ActiveFrame.Grid.Cells[x, y].Bounds.Center.ToVector2();
+                        return FrameManager.ActiveFrame.Grid.Peek().Cells[x, y].Bounds.Center.ToVector2();
                     }
                 }
             }

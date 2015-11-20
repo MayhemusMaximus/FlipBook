@@ -87,7 +87,7 @@ namespace FlipBook
                 Globals.SpriteBatch.Draw(Textures.SimpleTexture, Thumbnails[ndx - 1], frameBorderColor);
 
                 Rectangle imageBounds = new Rectangle(Thumbnails[ndx - 1].X + 5, Thumbnails[ndx - 1].Y + 5, Thumbnails[ndx - 1].Width - 10, Thumbnails[ndx - 1].Height - 10);
-                Globals.SpriteBatch.Draw(frame.Grid.ToTexture2D(), imageBounds, Color.White);
+                Globals.SpriteBatch.Draw(frame.Grid.Peek().ToTexture2D(), imageBounds, Color.White);
                 ndx++;
             }
         }

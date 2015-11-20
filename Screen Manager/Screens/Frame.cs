@@ -13,6 +13,7 @@ namespace FlipBook
         public Boolean IsActive { get; set; }
         public int Time { get; set; }
 
-        public Grid Grid = new Grid(new Vector2(0, 0), Globals.ImageSize);
+        //public Grid Grid = new Grid(new Vector2(0, 0), Globals.ImageSize);
+        public Stack<Grid> Grid = new Stack<Grid>();
     }
 }

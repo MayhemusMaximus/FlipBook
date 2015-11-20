@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -98,6 +99,8 @@ namespace FlipBook
                 newFrame.Sequence = 1;
 
             newFrame.Time = 100;
+            Grid grid = new Grid(new Vector2(0, 0), Globals.ImageSize);
+            newFrame.Grid.Push(grid);
             selectedFrame = newFrame;
 
             Frames.Add(newFrame);
